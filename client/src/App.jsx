@@ -206,6 +206,8 @@ export default function App() {
                           studyLogs={studyLogs}
                           subjects={subjects}
                           onLogHours={handleLogStudyHours}
+                          onAddSubject={handleAddSubject}
+                          onDeleteSubject={handleDeleteSubject}
                         />
                       </div>
 
@@ -240,6 +242,8 @@ export default function App() {
                       studyLogs={studyLogs}
                       subjects={subjects}
                       onLogHours={handleLogStudyHours}
+                      onAddSubject={handleAddSubject}
+                      onDeleteSubject={handleDeleteSubject}
                     />
 
                     <SubjectProgress
