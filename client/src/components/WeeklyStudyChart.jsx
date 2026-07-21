@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend
 } from 'recharts';
-import { BarChart3, Plus, Check, Settings, Trash2, X, Tag } from 'lucide-react';
+import { BarChart3, Plus, Check, Settings, Trash2, X, Tag, Edit3 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
 export default function WeeklyStudyChart({ studyLogs = [], subjects = [], onLogHours, onAddSubject, onDeleteSubject }) {
@@ -12,7 +12,7 @@ export default function WeeklyStudyChart({ studyLogs = [], subjects = [], onLogH
   const [date, setDate] = useState(() => new Date().toISOString().split('T')[0]);
   const [successMsg, setSuccessMsg] = useState(false);
 
-  // Manage Subjects Modal / Expand state
+  // Manage Subjects Modal state
   const [showManageModal, setShowManageModal] = useState(false);
   const [newSubjName, setNewSubjName] = useState('');
   const [newSubjCategory, setNewSubjCategory] = useState('CFTRI');
@@ -57,6 +57,10 @@ export default function WeeklyStudyChart({ studyLogs = [], subjects = [], onLogH
 
   const handleSubmitLog = (e) => {
     e.preventDefault();
+    if (selectedSubject === '__manage__') {
+      setShowManageModal(true);
+      return;
+    }
     const subjName = selectedSubject || (subjects[0]?.name || 'General Study');
     if (!subjName || !hours) return;
     onLogHours({ date, subjectName: subjName, hours: Number(hours) });
@@ -91,7 +95,7 @@ export default function WeeklyStudyChart({ studyLogs = [], subjects = [], onLogH
               Weekly Study Hours Graph
             </h3>
 
-            {/* Manage Subjects Trigger Button */}
+            {/* Header Manage Subjects Trigger */}
             <button
               onClick={() => setShowManageModal(true)}
               className="flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs font-semibold bg-pink-50 dark:bg-plum-900 text-pink-600 dark:text-pink-300 hover:bg-pink-100 dark:hover:bg-plum-800 border border-pink-200/60 dark:border-pink-900/50 transition-colors"
@@ -115,15 +119,36 @@ export default function WeeklyStudyChart({ studyLogs = [], subjects = [], onLogH
             className="px-2.5 py-1 rounded-xl bg-white dark:bg-plum-800 border border-pink-200 dark:border-pink-900/60 text-xs font-mono text-slate-800 dark:text-pink-100"
           />
 
-          <select
-            value={selectedSubject || (subjects[0]?.name || '')}
-            onChange={(e) => setSelectedSubject(e.target.value)}
-            className="px-2.5 py-1 rounded-xl bg-white dark:bg-plum-800 border border-pink-200 dark:border-pink-900/60 text-xs font-medium max-w-[140px] truncate text-slate-800 dark:text-pink-100"
-          >
-            {subjects.map(s => (
-              <option key={s._id || s.name} value={s.name}>{s.name}</option>
-            ))}
-          </select>
+          {/* Subject Dropdown with Direct Edit Icon Button & Manage Option */}
+          <div className="flex items-center gap-1">
+            <select
+              value={selectedSubject || (subjects[0]?.name || '')}
+              onChange={(e) => {
+                if (e.target.value === '__manage__') {
+                  setShowManageModal(true);
+                } else {
+                  setSelectedSubject(e.target.value);
+                }
+              }}
+              className="px-2.5 py-1 rounded-xl bg-white dark:bg-plum-800 border border-pink-200 dark:border-pink-900/60 text-xs font-medium max-w-[140px] truncate text-slate-800 dark:text-pink-100"
+            >
+              {subjects.map(s => (
+                <option key={s._id || s.name} value={s.name}>{s.name}</option>
+              ))}
+              <option value="__manage__" className="text-pink-600 font-bold">
+                ✏️ + Add / Remove Subjects...
+              </option>
+            </select>
+
+            <button
+              type="button"
+              onClick={() => setShowManageModal(true)}
+              className="p-1.5 rounded-xl bg-pink-100 dark:bg-plum-800 text-pink-600 dark:text-pink-300 hover:bg-pink-200 dark:hover:bg-plum-700 transition-colors shrink-0"
+              title="Add or Remove subjects from options list"
+            >
+              <Edit3 className="w-3.5 h-3.5" />
+            </button>
+          </div>
 
           <div className="flex items-center gap-1">
             <input
@@ -192,7 +217,7 @@ export default function WeeklyStudyChart({ studyLogs = [], subjects = [], onLogH
             <div className="flex items-center justify-between border-b border-pink-100 dark:border-pink-950/80 pb-3">
               <h3 className="text-base font-bold text-slate-900 dark:text-pink-50 font-outfit flex items-center gap-2">
                 <Tag className="w-4 h-4 text-pink-500" />
-                Manage Graph Subjects
+                Manage Subject Options
               </h3>
               <button
                 onClick={() => setShowManageModal(false)}
@@ -205,7 +230,7 @@ export default function WeeklyStudyChart({ studyLogs = [], subjects = [], onLogH
             {/* Add New Subject Form */}
             <form onSubmit={handleAddSubjectSubmit} className="p-3.5 rounded-2xl bg-pink-50/60 dark:bg-plum-950/60 border border-pink-200 dark:border-pink-900/60 space-y-3">
               <h4 className="text-xs font-bold uppercase tracking-wider text-pink-600 dark:text-pink-300">
-                Add New Subject
+                Add New Subject to Options
               </h4>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                 <div className="sm:col-span-1">
