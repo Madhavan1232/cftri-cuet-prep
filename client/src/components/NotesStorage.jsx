@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FileText, UploadCloud, Download, Trash2, Tag, Search, File, Image as ImageIcon, Sparkles } from 'lucide-react';
+import { FileText, UploadCloud, Download, Trash2, Tag, Search, File, Image as ImageIcon, Sparkles, Eye, X, ExternalLink } from 'lucide-react';
 
 export default function NotesStorage({ notes = [], subjects = [], onUploadNote, onDeleteNote }) {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -7,6 +7,7 @@ export default function NotesStorage({ notes = [], subjects = [], onUploadNote, 
   const [isUploading, setIsUploading] = useState(false);
   const [filterTag, setFilterTag] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
+  const [previewNote, setPreviewNote] = useState(null);
 
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -53,6 +54,14 @@ export default function NotesStorage({ notes = [], subjects = [], onUploadNote, 
     return matchesTag && matchesSearch;
   });
 
+  const isImageFile = (note) => {
+    return note?.mimeType?.includes('image') || /\.(jpg|jpeg|png|gif|webp)$/i.test(note?.filename || '');
+  };
+
+  const isPdfFile = (note) => {
+    return note?.mimeType?.includes('pdf') || /\.pdf$/i.test(note?.filename || '');
+  };
+
   return (
     <div className="dashboard-card space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
@@ -62,7 +71,7 @@ export default function NotesStorage({ notes = [], subjects = [], onUploadNote, 
             Exam Notes & File Vault ✨
           </h3>
           <p className="text-xs text-slate-500 dark:text-pink-300/70">
-            Upload, store, and organize PDFs, lecture notes, and formula sheets
+            Upload, store, organize, and view PDFs, lecture notes, and formula sheets
           </p>
         </div>
       </div>
@@ -152,7 +161,7 @@ export default function NotesStorage({ notes = [], subjects = [], onUploadNote, 
         </div>
       </div>
 
-      {/* Notes Grid */}
+      {/* Notes List */}
       <div className="space-y-2">
         {filteredNotes.length === 0 ? (
           <p className="text-xs text-slate-400 italic py-4 text-center">No notes uploaded matching criteria.</p>
@@ -164,7 +173,7 @@ export default function NotesStorage({ notes = [], subjects = [], onUploadNote, 
             >
               <div className="flex items-center gap-3 min-w-0 flex-1">
                 <div className="p-2 rounded-xl bg-pink-500/10 text-pink-600 dark:text-pink-300 shrink-0">
-                  {note.mimeType?.includes('image') ? (
+                  {isImageFile(note) ? (
                     <ImageIcon className="w-4 h-4" />
                   ) : (
                     <File className="w-4 h-4" />
@@ -185,7 +194,16 @@ export default function NotesStorage({ notes = [], subjects = [], onUploadNote, 
                 </div>
               </div>
 
+              {/* Action Buttons: View, Download, Delete */}
               <div className="flex items-center gap-1 shrink-0">
+                <button
+                  onClick={() => setPreviewNote(note)}
+                  className="p-1.5 rounded-lg text-pink-500 hover:text-pink-700 hover:bg-pink-100 dark:hover:bg-plum-800 transition-colors"
+                  title="View / Preview File"
+                >
+                  <Eye className="w-4 h-4" />
+                </button>
+
                 <a
                   href={`/api/notes/${note._id}/download`}
                   download
@@ -207,6 +225,87 @@ export default function NotesStorage({ notes = [], subjects = [], onUploadNote, 
           ))
         )}
       </div>
+
+      {/* Inline File Preview Modal */}
+      {previewNote && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm animate-fadeIn">
+          <div className="bg-white dark:bg-plum-900 border border-pink-200 dark:border-pink-900/60 rounded-3xl p-5 max-w-4xl w-full shadow-2xl space-y-4 max-h-[90vh] flex flex-col">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between border-b border-pink-100 dark:border-pink-950/80 pb-3 shrink-0">
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="px-2 py-0.5 rounded-lg text-[10px] font-bold bg-pink-100 dark:bg-pink-900/50 text-pink-700 dark:text-pink-300 shrink-0">
+                  {previewNote.subjectTag}
+                </span>
+                <h4 className="text-sm font-bold text-slate-900 dark:text-pink-50 truncate">
+                  {previewNote.originalName}
+                </h4>
+              </div>
+
+              <div className="flex items-center gap-2 shrink-0">
+                <a
+                  href={`/uploads/${previewNote.filename}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-pink-50 dark:bg-plum-800 text-pink-600 dark:text-pink-300 text-xs font-semibold hover:bg-pink-100 dark:hover:bg-plum-700 transition-colors"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span>Open in Tab</span>
+                </a>
+
+                <a
+                  href={`/api/notes/${previewNote._id}/download`}
+                  download
+                  className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-pink-500 text-white text-xs font-semibold hover:bg-pink-600 transition-colors shadow-sm"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Download</span>
+                </a>
+
+                <button
+                  onClick={() => setPreviewNote(null)}
+                  className="p-1.5 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-pink-200 hover:bg-pink-50 dark:hover:bg-plum-800"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Body Preview Content */}
+            <div className="flex-1 overflow-auto flex items-center justify-center p-2 rounded-2xl bg-slate-50 dark:bg-plum-950/60 border border-pink-100/50 dark:border-pink-950/60">
+              {isImageFile(previewNote) ? (
+                <img
+                  src={`/uploads/${previewNote.filename}`}
+                  alt={previewNote.originalName}
+                  className="max-h-[70vh] w-auto max-w-full rounded-2xl object-contain shadow-md"
+                />
+              ) : isPdfFile(previewNote) ? (
+                <iframe
+                  src={`/uploads/${previewNote.filename}`}
+                  className="w-full h-[70vh] rounded-2xl border-0"
+                  title={previewNote.originalName}
+                />
+              ) : (
+                <div className="text-center py-12 space-y-3">
+                  <File className="w-12 h-12 mx-auto text-pink-400 animate-pulse" />
+                  <p className="text-sm font-semibold text-slate-700 dark:text-pink-200">
+                    Preview not available directly for this file format ({previewNote.originalName})
+                  </p>
+                  <div className="flex justify-center gap-3 pt-2">
+                    <a
+                      href={`/uploads/${previewNote.filename}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="px-4 py-2 rounded-xl bg-pink-500 text-white text-xs font-semibold hover:bg-pink-600"
+                    >
+                      Open in New Browser Tab
+                    </a>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
