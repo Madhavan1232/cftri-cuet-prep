@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply transition-colors duration-300 ease-in-out;
+  }
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-pink-200 rounded-full;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  @apply bg-plum-800;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-pink-300;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  @apply bg-pink-900;
+}
+
+/* Card aesthetics */
+.dashboard-card {
+  @apply bg-white/90 dark:bg-plum-900/90 border border-pink-100 dark:border-pink-950/60 rounded-2xl p-5 shadow-sm transition-all duration-300 hover:shadow-md hover:shadow-pink-500/5;
+}
+
+/* Glassmorphism subtle overlay */
+.glass-panel {
+  @apply bg-white/80 dark:bg-plum-900/80 backdrop-blur-md border border-pink-100/60 dark:border-pink-900/40;
+}
+
+/* Cute glow effects */
+.rose-glow {
+  box-shadow: 0 0 25px -5px rgba(236, 72, 153, 0.15);
+}
