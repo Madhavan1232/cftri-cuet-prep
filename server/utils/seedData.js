@@ -31,7 +31,7 @@ async function seedDefaultData() {
         { name: 'Biology & Biochemistry', category: 'CFTRI', progress: 70, color: '#10b981', targetHours: 45 },
         { name: 'General Aptitude', category: 'CFTRI', progress: 80, color: '#f59e0b', targetHours: 30 },
         { name: 'Domain Subjects', category: 'CUET', progress: 55, color: '#8b5cf6', targetHours: 60 },
-        { name: 'General Test', category: 'CUET', progress: 60, color: '#ec4899', targetHours: 35 },
+        { name: 'General Test', category: 'CUET', progress: 60, color: '#787774', targetHours: 35 },
         { name: 'Language & Verbal', category: 'CUET', progress: 75, color: '#6366f1', targetHours: 25 }
       ];
       await Subject.insertMany(defaultSubjects);
