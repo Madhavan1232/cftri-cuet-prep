@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Calendar, Plus, Trash2, Tag, CheckCircle2, Circle } from 'lucide-react';
+import { Calendar, Plus, Trash2, CheckCircle2, Circle } from 'lucide-react';
 
 export default function Timeline({ events = [], onAddEvent, onDeleteEvent }) {
   const [showAddForm, setShowAddForm] = useState(false);
@@ -19,76 +19,65 @@ export default function Timeline({ events = [], onAddEvent, onDeleteEvent }) {
     setShowAddForm(false);
   };
 
-  const getTagBadgeClass = (t) => {
-    switch (t) {
-      case 'CFTRI':
-        return 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20';
-      case 'CUET':
-        return 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20';
-      default:
-        return 'bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/20';
-    }
-  };
-
   return (
     <div className="dashboard-card space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-base font-bold text-slate-900 dark:text-white font-outfit flex items-center gap-2">
-            <Calendar className="w-4 h-4 text-blue-500" />
+          <h3 className="text-base font-semibold text-[#37352F] dark:text-[#E3E3E0] flex items-center gap-2">
+            <Calendar className="w-4 h-4 text-[#787774]" />
             Admission Timeline & Milestones
           </h3>
-          <p className="text-xs text-slate-500 dark:text-slate-400">
+          <p className="text-xs text-[#787774] dark:text-[#9B9B9B]">
             Key entrance exam dates, application deadlines & counselling milestones
           </p>
         </div>
 
         <button
           onClick={() => setShowAddForm(!showAddForm)}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 text-white text-xs font-semibold hover:bg-blue-700 transition-colors shadow-sm shadow-blue-500/20"
+          className="notion-btn text-xs py-1 px-2.5 flex items-center gap-1"
         >
           <Plus className="w-3.5 h-3.5" />
           <span>Add Event</span>
         </button>
       </div>
 
-      {/* Add Event Form Modal / Collapse */}
+      {/* Add Event Form */}
       {showAddForm && (
-        <form onSubmit={handleSubmit} className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-3">
-          <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+        <form onSubmit={handleSubmit} className="p-3 rounded bg-[#F7F7F5] dark:bg-[#202020] border border-[#E9E9E7] dark:border-[#2E2E2E] space-y-2.5">
+          <h4 className="text-xs font-medium uppercase text-[#787774] dark:text-[#9B9B9B]">
             Add New Timeline Milestone
           </h4>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
             <div>
-              <label className="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">Event Title</label>
+              <label className="block text-xs text-[#787774] mb-1">Event Title</label>
               <input
                 type="text"
                 required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g., Admit Card Release Date"
-                className="w-full px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="notion-input w-full text-xs"
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">Event Date</label>
+              <label className="block text-xs text-[#787774] mb-1">Event Date</label>
               <input
                 type="datetime-local"
                 required
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="w-full px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="notion-input w-full text-xs font-mono"
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
             <div>
-              <label className="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">Category Tag</label>
+              <label className="block text-xs text-[#787774] mb-1">Category Tag</label>
               <select
                 value={tag}
                 onChange={(e) => setTag(e.target.value)}
-                className="w-full px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="notion-input w-full text-xs"
               >
                 <option value="General">General</option>
                 <option value="CFTRI">CFTRI</option>
@@ -96,28 +85,28 @@ export default function Timeline({ events = [], onAddEvent, onDeleteEvent }) {
               </select>
             </div>
             <div>
-              <label className="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">Notes / Instructions</label>
+              <label className="block text-xs text-[#787774] mb-1">Notes / Instructions</label>
               <input
                 type="text"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 placeholder="e.g., Keep roll number handy"
-                className="w-full px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="notion-input w-full text-xs"
               />
             </div>
           </div>
 
-          <div className="flex justify-end gap-2 pt-2">
+          <div className="flex justify-end gap-2 pt-1">
             <button
               type="button"
               onClick={() => setShowAddForm(false)}
-              className="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700"
+              className="notion-btn text-xs"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 text-white hover:bg-blue-700 shadow-sm"
+              className="notion-btn text-xs bg-[#37352F] text-white dark:bg-[#E3E3E0] dark:text-[#191919]"
             >
               Save Event
             </button>
@@ -126,42 +115,36 @@ export default function Timeline({ events = [], onAddEvent, onDeleteEvent }) {
       )}
 
       {/* Stepper Visualization */}
-      <div className="relative pl-6 space-y-6 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-200 dark:before:bg-slate-800">
+      <div className="relative pl-5 space-y-4 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-px before:bg-[#E9E9E7] dark:before:bg-[#2E2E2E]">
         {events.length === 0 ? (
-          <p className="text-xs text-slate-400 italic py-2">No timeline events added yet.</p>
+          <p className="text-xs text-[#787774] italic py-2">No timeline events added yet.</p>
         ) : (
           events.map((evt, idx) => {
             const evtDate = new Date(evt.date);
             const isPast = evtDate < new Date();
             return (
               <div key={evt._id || idx} className="relative group">
-                {/* Bullet Node */}
-                <div className={`absolute -left-6 top-1 w-5 h-5 rounded-full flex items-center justify-center bg-white dark:bg-slate-900 ${isPast ? 'text-emerald-500' : 'text-blue-500'}`}>
-                  {isPast ? (
-                    <CheckCircle2 className="w-4 h-4 fill-emerald-500/20 text-emerald-500" />
-                  ) : (
-                    <Circle className="w-4 h-4 text-blue-500 fill-blue-500/20" />
-                  )}
+                <div className="absolute -left-5 top-1.5 w-3 h-3 rounded-full bg-white dark:bg-[#252525] border border-[#787774] flex items-center justify-center">
+                  <div className={`w-1.5 h-1.5 rounded-full ${isPast ? 'bg-[#787774]' : 'bg-[#37352F] dark:bg-[#E3E3E0]'}`} />
                 </div>
 
-                <div className="flex items-start justify-between bg-slate-50/50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-800/80 rounded-xl p-3 hover:border-slate-300 dark:hover:border-slate-700 transition-colors">
-                  <div className="space-y-1">
+                <div className="flex items-start justify-between bg-white dark:bg-[#202020] border border-[#E9E9E7] dark:border-[#2E2E2E] rounded p-2.5 hover:bg-[#F7F7F5] dark:hover:bg-[#2C2C2C] transition-colors">
+                  <div className="space-y-0.5">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold border ${getTagBadgeClass(evt.tag)}`}>
+                      <span className="px-1.5 py-0.2 rounded text-[10px] bg-[#F1F1EF] dark:bg-[#2D2D2D] text-[#787774] dark:text-[#9B9B9B]">
                         {evt.tag}
                       </span>
-                      <h4 className="text-sm font-semibold text-slate-900 dark:text-white">
+                      <h4 className="text-xs font-semibold text-[#37352F] dark:text-[#E3E3E0]">
                         {evt.title}
                       </h4>
                     </div>
 
-                    <p className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-                      <Calendar className="w-3 h-3 text-slate-400" />
-                      <span>{evtDate.toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' })}</span>
+                    <p className="text-[11px] text-[#787774] dark:text-[#9B9B9B]">
+                      {evtDate.toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' })}
                     </p>
 
                     {evt.notes && (
-                      <p className="text-xs text-slate-600 dark:text-slate-300 pt-1">
+                      <p className="text-xs text-[#37352F] dark:text-[#E3E3E0] pt-0.5">
                         {evt.notes}
                       </p>
                     )}
@@ -169,7 +152,7 @@ export default function Timeline({ events = [], onAddEvent, onDeleteEvent }) {
 
                   <button
                     onClick={() => onDeleteEvent(evt._id)}
-                    className="opacity-0 group-hover:opacity-100 p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-lg transition-all"
+                    className="opacity-0 group-hover:opacity-100 p-1 text-[#787774] hover:text-red-500 rounded transition-all"
                     title="Delete event"
                   >
                     <Trash2 className="w-3.5 h-3.5" />

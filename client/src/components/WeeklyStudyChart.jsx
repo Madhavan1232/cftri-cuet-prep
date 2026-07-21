@@ -12,13 +12,11 @@ export default function WeeklyStudyChart({ studyLogs = [], subjects = [], onLogH
   const [date, setDate] = useState(() => new Date().toISOString().split('T')[0]);
   const [successMsg, setSuccessMsg] = useState(false);
 
-  // Manage Subjects Modal state
   const [showManageModal, setShowManageModal] = useState(false);
   const [newSubjName, setNewSubjName] = useState('');
   const [newSubjCategory, setNewSubjCategory] = useState('CFTRI');
-  const [newSubjColor, setNewSubjColor] = useState('#ec4899');
+  const [newSubjColor, setNewSubjColor] = useState('#787774');
 
-  // Calculate current week days (Monday to Sunday)
   const getCurrentWeekDays = () => {
     const curr = new Date();
     const first = curr.getDate() - (curr.getDay() === 0 ? 6 : curr.getDay() - 1);
@@ -35,7 +33,11 @@ export default function WeeklyStudyChart({ studyLogs = [], subjects = [], onLogH
 
   const weekDays = getCurrentWeekDays();
 
-  // Format data for Recharts stacked bar chart
+  // Notion palette for chart bars
+  const notionBarColors = [
+    '#787774', '#9B9B9B', '#454545', '#B4B4B4', '#606060', '#838383', '#505050'
+  ];
+
   const chartData = weekDays.map((day) => {
     const entry = { name: day.dayName, date: day.dateStr, total: 0 };
     subjects.forEach((subj) => {
@@ -86,40 +88,37 @@ export default function WeeklyStudyChart({ studyLogs = [], subjects = [], onLogH
   const isDark = theme === 'dark';
 
   return (
-    <div className="dashboard-card space-y-6">
+    <div className="dashboard-card space-y-5">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <div className="flex items-center gap-2">
-            <h3 className="text-base font-bold text-slate-900 dark:text-pink-50 font-outfit flex items-center gap-2">
-              <BarChart3 className="w-4 h-4 text-pink-500" />
+            <h3 className="text-base font-semibold text-[#37352F] dark:text-[#E3E3E0]">
               Weekly Study Hours Graph
             </h3>
 
-            {/* Header Manage Subjects Trigger */}
             <button
               onClick={() => setShowManageModal(true)}
-              className="flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs font-semibold bg-pink-50 dark:bg-plum-900 text-pink-600 dark:text-pink-300 hover:bg-pink-100 dark:hover:bg-plum-800 border border-pink-200/60 dark:border-pink-900/50 transition-colors"
+              className="px-2 py-0.5 rounded text-xs font-medium bg-[#F1F1EF] dark:bg-[#2D2D2D] text-[#787774] dark:text-[#9B9B9B] border border-[#E9E9E7] dark:border-[#2E2E2E] hover:bg-[#EFEFED] dark:hover:bg-[#333333] transition-colors flex items-center gap-1"
               title="Add or Remove Subjects"
             >
-              <Settings className="w-3.5 h-3.5" />
+              <Settings className="w-3 h-3 text-[#787774]" />
               <span>Edit Subjects</span>
             </button>
           </div>
-          <p className="text-xs text-slate-500 dark:text-pink-300/70">
+          <p className="text-xs text-[#787774] dark:text-[#9B9B9B]">
             Hours logged per subject across the current week
           </p>
         </div>
 
         {/* Quick Log Inline Form */}
-        <form onSubmit={handleSubmitLog} className="flex items-center gap-2 flex-wrap sm:flex-nowrap bg-pink-50/50 dark:bg-plum-900/60 p-2 rounded-2xl border border-pink-100 dark:border-pink-950/60">
+        <form onSubmit={handleSubmitLog} className="flex items-center gap-2 flex-wrap sm:flex-nowrap bg-[#F7F7F5] dark:bg-[#202020] p-1.5 rounded border border-[#E9E9E7] dark:border-[#2E2E2E]">
           <input
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            className="px-2.5 py-1 rounded-xl bg-white dark:bg-plum-800 border border-pink-200 dark:border-pink-900/60 text-xs font-mono text-slate-800 dark:text-pink-100"
+            className="notion-input text-xs font-mono py-1 px-2"
           />
 
-          {/* Subject Dropdown with Direct Edit Icon Button & Manage Option */}
           <div className="flex items-center gap-1">
             <select
               value={selectedSubject || (subjects[0]?.name || '')}
@@ -130,21 +129,19 @@ export default function WeeklyStudyChart({ studyLogs = [], subjects = [], onLogH
                   setSelectedSubject(e.target.value);
                 }
               }}
-              className="px-2.5 py-1 rounded-xl bg-white dark:bg-plum-800 border border-pink-200 dark:border-pink-900/60 text-xs font-medium max-w-[140px] truncate text-slate-800 dark:text-pink-100"
+              className="notion-input text-xs py-1 px-2 max-w-[130px] truncate"
             >
               {subjects.map(s => (
                 <option key={s._id || s.name} value={s.name}>{s.name}</option>
               ))}
-              <option value="__manage__" className="text-pink-600 font-bold">
-                ✏️ + Add / Remove Subjects...
-              </option>
+              <option value="__manage__">+ Manage Subjects...</option>
             </select>
 
             <button
               type="button"
               onClick={() => setShowManageModal(true)}
-              className="p-1.5 rounded-xl bg-pink-100 dark:bg-plum-800 text-pink-600 dark:text-pink-300 hover:bg-pink-200 dark:hover:bg-plum-700 transition-colors shrink-0"
-              title="Add or Remove subjects from options list"
+              className="p-1.5 rounded bg-white dark:bg-[#2A2A2A] border border-[#E9E9E7] dark:border-[#2E2E2E] text-[#787774] dark:text-[#9B9B9B] hover:bg-[#EFEFED] shrink-0"
+              title="Add or Remove subjects"
             >
               <Edit3 className="w-3.5 h-3.5" />
             </button>
@@ -158,52 +155,52 @@ export default function WeeklyStudyChart({ studyLogs = [], subjects = [], onLogH
               max="24"
               value={hours}
               onChange={(e) => setHours(e.target.value)}
-              className="w-14 px-2 py-1 rounded-xl bg-white dark:bg-plum-800 border border-pink-200 dark:border-pink-900/60 text-xs font-mono text-slate-800 dark:text-pink-100"
+              className="notion-input w-12 text-xs font-mono py-1 px-1.5"
             />
-            <span className="text-xs text-pink-400 font-medium">hrs</span>
+            <span className="text-xs text-[#787774] dark:text-[#9B9B9B]">hrs</span>
           </div>
 
           <button
             type="submit"
-            className="flex items-center gap-1 px-3.5 py-1 rounded-xl bg-gradient-to-r from-pink-500 to-rose-500 text-white text-xs font-semibold hover:from-pink-600 hover:to-rose-600 transition-colors shrink-0 shadow-sm"
+            className="notion-btn text-xs py-1 px-2.5 shrink-0"
           >
-            <Plus className="w-3.5 h-3.5" />
+            <Plus className="w-3.5 h-3.5 inline mr-0.5" />
             <span>Log</span>
           </button>
         </form>
       </div>
 
       {successMsg && (
-        <div className="flex items-center gap-2 p-2.5 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-300 text-xs font-medium border border-emerald-500/20">
-          <Check className="w-4 h-4" />
-          <span>Study hours logged successfully! Streak updated. ✨</span>
+        <div className="flex items-center gap-2 p-2 rounded bg-[#F1F1EF] dark:bg-[#2D2D2D] text-[#37352F] dark:text-[#E3E3E0] text-xs border border-[#E9E9E7] dark:border-[#2E2E2E]">
+          <Check className="w-3.5 h-3.5 text-[#787774]" />
+          <span>Study hours logged successfully.</span>
         </div>
       )}
 
       {/* Recharts Bar Chart */}
-      <div className="h-64 w-full pt-2">
+      <div className="h-60 w-full pt-1">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#2e142f' : '#fbcfe8'} />
-            <XAxis dataKey="name" stroke={isDark ? '#f472b6' : '#db2777'} fontSize={12} />
-            <YAxis stroke={isDark ? '#f472b6' : '#db2777'} fontSize={12} unit="h" />
+            <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#2E2E2E' : '#EDEDEC'} />
+            <XAxis dataKey="name" stroke={isDark ? '#9B9B9B' : '#787774'} fontSize={12} />
+            <YAxis stroke={isDark ? '#9B9B9B' : '#787774'} fontSize={12} unit="h" />
             <Tooltip
               contentStyle={{
-                backgroundColor: isDark ? '#180a19' : '#ffffff',
-                borderColor: isDark ? '#381a3b' : '#fbcfe8',
-                borderRadius: '12px',
-                color: isDark ? '#fdf2f8' : '#180a19',
+                backgroundColor: isDark ? '#202020' : '#ffffff',
+                borderColor: isDark ? '#2E2E2E' : '#E9E9E7',
+                borderRadius: '6px',
+                color: isDark ? '#E3E3E0' : '#37352F',
                 fontSize: '12px'
               }}
             />
             <Legend wrapperStyle={{ fontSize: '11px', paddingTop: '8px' }} />
-            {subjects.map((subj) => (
+            {subjects.map((subj, idx) => (
               <Bar
                 key={subj._id || subj.name}
                 dataKey={subj.name}
                 stackId="a"
-                fill={subj.color || '#ec4899'}
-                radius={[3, 3, 0, 0]}
+                fill={subj.color && subj.color !== '#ec4899' ? subj.color : notionBarColors[idx % notionBarColors.length]}
+                radius={[2, 2, 0, 0]}
               />
             ))}
           </BarChart>
@@ -212,42 +209,42 @@ export default function WeeklyStudyChart({ studyLogs = [], subjects = [], onLogH
 
       {/* Manage Subjects Modal */}
       {showManageModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm animate-fadeIn">
-          <div className="bg-white dark:bg-plum-900 border border-pink-200 dark:border-pink-900/60 rounded-3xl p-6 max-w-lg w-full shadow-2xl space-y-5">
-            <div className="flex items-center justify-between border-b border-pink-100 dark:border-pink-950/80 pb-3">
-              <h3 className="text-base font-bold text-slate-900 dark:text-pink-50 font-outfit flex items-center gap-2">
-                <Tag className="w-4 h-4 text-pink-500" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#191919]/60 backdrop-blur-xs animate-fadeIn">
+          <div className="bg-white dark:bg-[#202020] border border-[#E9E9E7] dark:border-[#2E2E2E] rounded-lg p-5 max-w-lg w-full shadow-lg space-y-4">
+            <div className="flex items-center justify-between border-b border-[#E9E9E7] dark:border-[#2E2E2E] pb-2.5">
+              <h3 className="text-sm font-semibold text-[#37352F] dark:text-[#E3E3E0] flex items-center gap-2">
+                <Tag className="w-4 h-4 text-[#787774]" />
                 Manage Subject Options
               </h3>
               <button
                 onClick={() => setShowManageModal(false)}
-                className="p-1.5 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-pink-200 hover:bg-pink-50 dark:hover:bg-plum-800"
+                className="p-1 rounded text-[#787774] dark:text-[#9B9B9B] hover:bg-[#EFEFED] dark:hover:bg-[#333333]"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
             {/* Add New Subject Form */}
-            <form onSubmit={handleAddSubjectSubmit} className="p-3.5 rounded-2xl bg-pink-50/60 dark:bg-plum-950/60 border border-pink-200 dark:border-pink-900/60 space-y-3">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-pink-600 dark:text-pink-300">
-                Add New Subject to Options
+            <form onSubmit={handleAddSubjectSubmit} className="p-3 rounded bg-[#F7F7F5] dark:bg-[#2A2A2A] border border-[#E9E9E7] dark:border-[#2E2E2E] space-y-2.5">
+              <h4 className="text-xs font-medium uppercase text-[#787774] dark:text-[#9B9B9B]">
+                Add New Subject
               </h4>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                <div className="sm:col-span-1">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <div>
                   <input
                     type="text"
                     required
                     value={newSubjName}
                     onChange={(e) => setNewSubjName(e.target.value)}
                     placeholder="Subject Name"
-                    className="w-full px-3 py-1.5 rounded-xl border border-pink-200 dark:border-pink-900/60 bg-white dark:bg-plum-900 text-xs font-medium focus:ring-2 focus:ring-pink-500"
+                    className="notion-input w-full text-xs"
                   />
                 </div>
                 <div>
                   <select
                     value={newSubjCategory}
                     onChange={(e) => setNewSubjCategory(e.target.value)}
-                    className="w-full px-2.5 py-1.5 rounded-xl border border-pink-200 dark:border-pink-900/60 bg-white dark:bg-plum-900 text-xs font-medium"
+                    className="notion-input w-full text-xs"
                   >
                     <option value="CFTRI">CFTRI</option>
                     <option value="CUET">CUET</option>
@@ -259,11 +256,11 @@ export default function WeeklyStudyChart({ studyLogs = [], subjects = [], onLogH
                     type="color"
                     value={newSubjColor}
                     onChange={(e) => setNewSubjColor(e.target.value)}
-                    className="w-8 h-8 p-0.5 rounded-lg border border-pink-200 dark:border-pink-900/60 bg-white dark:bg-plum-900 cursor-pointer shrink-0"
+                    className="w-7 h-7 p-0 rounded border border-[#E9E9E7] bg-white cursor-pointer shrink-0"
                   />
                   <button
                     type="submit"
-                    className="w-full px-3 py-1.5 rounded-xl bg-pink-500 text-white text-xs font-semibold hover:bg-pink-600 transition-colors shadow-sm"
+                    className="notion-btn w-full text-xs py-1"
                   >
                     + Add
                   </button>
@@ -271,25 +268,25 @@ export default function WeeklyStudyChart({ studyLogs = [], subjects = [], onLogH
               </div>
             </form>
 
-            {/* List of Existing Subjects with Delete buttons */}
-            <div className="space-y-2 max-h-60 overflow-y-auto pr-1">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-pink-300/70">
+            {/* List of Existing Subjects */}
+            <div className="space-y-1.5 max-h-56 overflow-y-auto pr-1">
+              <h4 className="text-xs font-medium uppercase text-[#787774] dark:text-[#9B9B9B]">
                 Active Subjects ({subjects.length})
               </h4>
-              {subjects.map((subj) => (
+              {subjects.map((subj, idx) => (
                 <div
                   key={subj._id || subj.name}
-                  className="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 dark:bg-plum-950/40 border border-pink-100 dark:border-pink-950/60"
+                  className="flex items-center justify-between p-2 rounded bg-white dark:bg-[#252525] border border-[#E9E9E7] dark:border-[#2E2E2E]"
                 >
-                  <div className="flex items-center gap-2.5">
+                  <div className="flex items-center gap-2">
                     <div
-                      className="w-3.5 h-3.5 rounded-full shrink-0 shadow-sm"
-                      style={{ backgroundColor: subj.color || '#ec4899' }}
+                      className="w-2.5 h-2.5 rounded-full shrink-0"
+                      style={{ backgroundColor: subj.color || notionBarColors[idx % notionBarColors.length] }}
                     />
-                    <span className="text-xs font-bold text-slate-800 dark:text-pink-100">
+                    <span className="text-xs font-medium text-[#37352F] dark:text-[#E3E3E0]">
                       {subj.name}
                     </span>
-                    <span className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-pink-100 dark:bg-pink-900/50 text-pink-700 dark:text-pink-300">
+                    <span className="px-1.5 py-0.5 rounded text-[10px] bg-[#F1F1EF] dark:bg-[#2D2D2D] text-[#787774] dark:text-[#9B9B9B]">
                       {subj.category}
                     </span>
                   </div>
@@ -297,21 +294,21 @@ export default function WeeklyStudyChart({ studyLogs = [], subjects = [], onLogH
                   {onDeleteSubject && (
                     <button
                       onClick={() => onDeleteSubject(subj._id)}
-                      className="p-1.5 text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-lg transition-colors"
+                      className="p-1 text-[#787774] hover:text-red-500 rounded transition-colors"
                       title="Remove Subject"
                     >
-                      <Trash2 className="w-4 h-4" />
+                      <Trash2 className="w-3.5 h-3.5" />
                     </button>
                   )}
                 </div>
               ))}
             </div>
 
-            <div className="flex justify-end pt-2 border-t border-pink-100 dark:border-pink-950/80">
+            <div className="flex justify-end pt-2 border-t border-[#E9E9E7] dark:border-[#2E2E2E]">
               <button
                 type="button"
                 onClick={() => setShowManageModal(false)}
-                className="px-4 py-2 rounded-xl text-xs font-semibold bg-pink-500 text-white hover:bg-pink-600"
+                className="notion-btn text-xs"
               >
                 Done
               </button>

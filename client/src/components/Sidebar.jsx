@@ -1,33 +1,33 @@
 import React from 'react';
 import {
-  Sparkles,
+  LayoutDashboard,
   BookOpen,
   Timer,
   CheckSquare,
   FileText,
   Settings,
-  Heart
+  Sparkles
 } from 'lucide-react';
 
 export default function Sidebar({ activeTab, setActiveTab, onOpenSettings }) {
   const navItems = [
-    { id: 'overview', label: 'Dashboard Sanctuary', icon: Sparkles },
+    { id: 'overview', label: 'Overview', icon: LayoutDashboard },
     { id: 'tracker', label: 'Study & Progress', icon: BookOpen },
-    { id: 'pomodoro', label: 'Focus Pomodoro', icon: Timer },
+    { id: 'pomodoro', label: 'Pomodoro Timer', icon: Timer },
     { id: 'revision', label: 'Saturday Revision', icon: CheckSquare },
     { id: 'notes', label: 'Notes Vault', icon: FileText },
   ];
 
   return (
-    <aside className="w-full lg:w-64 bg-white/80 dark:bg-plum-950/90 border-r border-pink-100 dark:border-pink-950/80 p-4 flex flex-col justify-between shrink-0 transition-colors">
-      <div className="space-y-6">
-        <div className="px-3 py-1 flex items-center justify-between">
-          <p className="text-xs font-bold uppercase tracking-wider text-pink-400 dark:text-pink-300/60">
-            Study Menu ✨
+    <aside className="w-full lg:w-64 bg-[#F7F7F5] dark:bg-[#202020] border-r border-[#E9E9E7] dark:border-[#2E2E2E] p-4 flex flex-col justify-between shrink-0 transition-colors">
+      <div className="space-y-4">
+        <div className="px-2 py-1 flex items-center justify-between">
+          <p className="text-xs font-medium uppercase tracking-wider text-[#787774] dark:text-[#9B9B9B]">
+            Workspace
           </p>
         </div>
 
-        <nav className="space-y-1.5">
+        <nav className="space-y-0.5">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
@@ -35,13 +35,13 @@ export default function Sidebar({ activeTab, setActiveTab, onOpenSettings }) {
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
-                className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all ${
+                className={`w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded text-sm font-medium transition-colors ${
                   isActive
-                    ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-md shadow-pink-500/25'
-                    : 'text-slate-600 dark:text-pink-200/70 hover:bg-pink-50 dark:hover:bg-plum-900/80 hover:text-pink-600 dark:hover:text-pink-100'
+                    ? 'bg-[#EFEFED] dark:bg-[#2C2C2C] text-[#37352F] dark:text-[#E3E3E0] font-semibold'
+                    : 'text-[#787774] dark:text-[#9B9B9B] hover:bg-[#EFEFED] dark:hover:bg-[#2C2C2C] hover:text-[#37352F] dark:hover:text-[#E3E3E0]'
                 }`}
               >
-                <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-pink-400 dark:text-pink-400/80'}`} />
+                <Icon className={`w-4 h-4 ${isActive ? 'text-[#37352F] dark:text-[#E3E3E0]' : 'text-[#787774] dark:text-[#9B9B9B]'}`} />
                 <span>{item.label}</span>
               </button>
             );
@@ -49,22 +49,13 @@ export default function Sidebar({ activeTab, setActiveTab, onOpenSettings }) {
         </nav>
       </div>
 
-      {/* Motivational Card & Settings */}
-      <div className="pt-4 mt-auto space-y-3 border-t border-pink-100 dark:border-pink-950/80">
-        <div className="p-3 rounded-2xl bg-gradient-to-br from-pink-500/10 via-purple-500/10 to-rose-500/10 border border-pink-200/50 dark:border-pink-900/40 text-center space-y-1">
-          <p className="text-xs font-bold text-pink-700 dark:text-pink-300 flex items-center justify-center gap-1">
-            <Heart className="w-3.5 h-3.5 text-pink-500 fill-pink-500" /> Daily Reminder
-          </p>
-          <p className="text-[11px] text-slate-600 dark:text-pink-200/80 italic">
-            "Believe in your hard work. Future M.Sc. ranker loading..."
-          </p>
-        </div>
-
+      {/* Footer Settings */}
+      <div className="pt-3 border-t border-[#E9E9E7] dark:border-[#2E2E2E]">
         <button
           onClick={onOpenSettings}
-          className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-600 dark:text-pink-200/70 hover:bg-pink-50 dark:hover:bg-plum-900/80 hover:text-pink-600 dark:hover:text-pink-100 transition-colors"
+          className="w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded text-sm font-medium text-[#787774] dark:text-[#9B9B9B] hover:bg-[#EFEFED] dark:hover:bg-[#2C2C2C] hover:text-[#37352F] dark:hover:text-[#E3E3E0] transition-colors"
         >
-          <Settings className="w-4 h-4 text-pink-400" />
+          <Settings className="w-4 h-4 text-[#787774] dark:text-[#9B9B9B]" />
           <span>Dashboard Settings</span>
         </button>
       </div>

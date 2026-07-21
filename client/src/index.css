@@ -4,14 +4,14 @@
 
 @layer base {
   body {
-    @apply transition-colors duration-300 ease-in-out;
+    @apply transition-colors duration-150 ease-in-out font-sans bg-[#FBFBFA] dark:bg-[#191919] text-[#37352F] dark:text-[#E3E3E0];
   }
 }
 
-/* Custom scrollbars */
+/* Custom Notion scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -19,32 +19,24 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-pink-200 rounded-full;
-}
-
-.dark ::-webkit-scrollbar-thumb {
-  @apply bg-plum-800;
+  @apply bg-[#E9E9E7] dark:bg-[#2E2E2E] rounded-full;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-pink-300;
+  @apply bg-[#D3D3D0] dark:bg-[#3E3E3E];
 }
 
-.dark ::-webkit-scrollbar-thumb:hover {
-  @apply bg-pink-900;
-}
-
-/* Card aesthetics */
+/* Notion Card aesthetics */
 .dashboard-card {
-  @apply bg-white/90 dark:bg-plum-900/90 border border-pink-100 dark:border-pink-950/60 rounded-2xl p-5 shadow-sm transition-all duration-300 hover:shadow-md hover:shadow-pink-500/5;
+  @apply bg-white dark:bg-[#252525] border border-[#E9E9E7] dark:border-[#2E2E2E] rounded-lg p-5 transition-colors shadow-[0_1px_2px_rgba(0,0,0,0.03)];
 }
 
-/* Glassmorphism subtle overlay */
-.glass-panel {
-  @apply bg-white/80 dark:bg-plum-900/80 backdrop-blur-md border border-pink-100/60 dark:border-pink-900/40;
+/* Notion input style */
+.notion-input {
+  @apply px-3 py-1.5 rounded bg-white dark:bg-[#202020] border border-[#E9E9E7] dark:border-[#2E2E2E] text-sm text-[#37352F] dark:text-[#E3E3E0] focus:outline-none focus:border-[#A4A4A0] dark:focus:border-[#666666] transition-colors;
 }
 
-/* Cute glow effects */
-.rose-glow {
-  box-shadow: 0 0 25px -5px rgba(236, 72, 153, 0.15);
+/* Notion button style */
+.notion-btn {
+  @apply px-3 py-1.5 rounded font-medium text-sm bg-white dark:bg-[#2A2A2A] border border-[#E9E9E7] dark:border-[#2E2E2E] text-[#37352F] dark:text-[#E3E3E0] hover:bg-[#EFEFED] dark:hover:bg-[#333333] transition-colors;
 }

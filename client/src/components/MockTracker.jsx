@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CalendarCheck, CheckCircle2, Circle, ChevronLeft, ChevronRight, Heart } from 'lucide-react';
+import { CalendarCheck, CheckCircle2, Circle, ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function MockTracker({ mockTests = [], onToggleMockTest }) {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -46,35 +46,35 @@ export default function MockTracker({ mockTests = [], onToggleMockTest }) {
     <div className="dashboard-card space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
-          <h3 className="text-base font-bold text-slate-900 dark:text-pink-50 font-outfit flex items-center gap-2">
-            <CalendarCheck className="w-4 h-4 text-pink-500" />
+          <h3 className="text-base font-semibold text-[#37352F] dark:text-[#E3E3E0] flex items-center gap-2">
+            <CalendarCheck className="w-4 h-4 text-[#787774]" />
             Daily Mock Test Habit Tracker
           </h3>
-          <p className="text-xs text-slate-500 dark:text-pink-300/70">
-            Check off daily mock tests to build consistent exam stamina 🌸
+          <p className="text-xs text-[#787774] dark:text-[#9B9B9B]">
+            Check off daily mock tests to build consistent exam stamina
           </p>
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="text-xs font-bold px-3 py-1.5 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-300 border border-rose-500/20">
+          <div className="text-xs font-medium px-2 py-0.5 rounded bg-[#F1F1EF] dark:bg-[#2D2D2D] text-[#787774] dark:text-[#9B9B9B] border border-[#E9E9E7] dark:border-[#2E2E2E]">
             {completedCount} / {daysInMonth} Done ({completionPercentage}%)
           </div>
 
-          <div className="flex items-center gap-1 bg-pink-50 dark:bg-plum-900 p-1 rounded-xl">
+          <div className="flex items-center gap-1 bg-[#F7F7F5] dark:bg-[#202020] p-1 rounded border border-[#E9E9E7] dark:border-[#2E2E2E]">
             <button
               onClick={handlePrevMonth}
-              className="p-1 text-pink-600 dark:text-pink-300 hover:bg-pink-100 dark:hover:bg-plum-800 rounded-lg transition-colors"
+              className="p-1 text-[#787774] hover:bg-[#EFEFED] dark:hover:bg-[#333333] rounded transition-colors"
             >
-              <ChevronLeft className="w-4 h-4" />
+              <ChevronLeft className="w-3.5 h-3.5" />
             </button>
-            <span className="text-xs font-bold px-2 text-pink-900 dark:text-pink-100 font-outfit min-w-[100px] text-center">
+            <span className="text-xs font-semibold px-1 text-[#37352F] dark:text-[#E3E3E0] min-w-[90px] text-center">
               {monthName}
             </span>
             <button
               onClick={handleNextMonth}
-              className="p-1 text-pink-600 dark:text-pink-300 hover:bg-pink-100 dark:hover:bg-plum-800 rounded-lg transition-colors"
+              className="p-1 text-[#787774] hover:bg-[#EFEFED] dark:hover:bg-[#333333] rounded transition-colors"
             >
-              <ChevronRight className="w-4 h-4" />
+              <ChevronRight className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
@@ -82,7 +82,7 @@ export default function MockTracker({ mockTests = [], onToggleMockTest }) {
 
       <div className="grid grid-cols-7 gap-1 text-center">
         {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day) => (
-          <span key={day} className="text-[11px] font-bold text-pink-400 dark:text-pink-300/60 uppercase tracking-wider py-1">
+          <span key={day} className="text-[11px] font-semibold text-[#787774] dark:text-[#9B9B9B] uppercase tracking-wider py-1">
             {day}
           </span>
         ))}
@@ -91,26 +91,26 @@ export default function MockTracker({ mockTests = [], onToggleMockTest }) {
       <div className="grid grid-cols-7 gap-1.5">
         {daysArray.map((item, idx) => {
           if (!item) {
-            return <div key={`empty-${idx}`} className="h-10 rounded-lg bg-transparent" />;
+            return <div key={`empty-${idx}`} className="h-10 rounded bg-transparent" />;
           }
 
           return (
             <button
               key={item.dateStr}
               onClick={() => onToggleMockTest({ date: item.dateStr, completed: !item.isCompleted })}
-              className={`h-11 rounded-2xl p-1 flex flex-col items-center justify-between border transition-all ${
+              className={`h-10 rounded p-1 flex flex-col items-center justify-between border transition-all ${
                 item.isCompleted
-                  ? 'bg-gradient-to-tr from-rose-500/20 to-pink-500/15 border-rose-400 text-rose-800 dark:text-rose-200 hover:bg-rose-500/25'
+                  ? 'bg-[#F1F1EF] dark:bg-[#2D2D2D] border-[#37352F] dark:border-[#666666] text-[#37352F] dark:text-[#E3E3E0]'
                   : item.isToday
-                  ? 'bg-pink-500/15 border-pink-500 text-pink-950 dark:text-pink-100 hover:bg-pink-500/25'
-                  : 'bg-slate-50/70 dark:bg-plum-900/40 border-slate-200/80 dark:border-pink-950/60 text-slate-700 dark:text-pink-200 hover:border-pink-300 dark:hover:border-pink-800'
+                  ? 'bg-white dark:bg-[#252525] border-[#37352F] dark:border-[#666666] text-[#37352F] dark:text-[#E3E3E0]'
+                  : 'bg-white dark:bg-[#252525] border-[#E9E9E7] dark:border-[#2E2E2E] text-[#37352F] dark:text-[#E3E3E0] hover:bg-[#EFEFED] dark:hover:bg-[#333333]'
               }`}
             >
-              <span className="text-[11px] font-mono font-bold leading-none">{item.dayNum}</span>
+              <span className="text-[11px] font-mono font-medium leading-none">{item.dayNum}</span>
               {item.isCompleted ? (
-                <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500" />
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#37352F] dark:text-[#E3E3E0]" />
               ) : (
-                <Circle className="w-3.5 h-3.5 text-pink-200 dark:text-pink-950" />
+                <Circle className="w-3 h-3 text-[#E9E9E7] dark:text-[#3E3E3E]" />
               )}
             </button>
           );

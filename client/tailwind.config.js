@@ -8,33 +8,35 @@ export default {
   theme: {
     extend: {
       colors: {
-        rose: {
-          50: '#fff1f2',
-          100: '#ffe4e6',
-          200: '#fecdd3',
-          300: '#fda4af',
-          400: '#fb7185',
-          500: '#f43f5e',
-          600: '#e11d48',
-        },
-        pink: {
-          50: '#fdf2f8',
-          100: '#fce7f3',
-          200: '#fbcfe8',
-          300: '#f9a8d4',
-          400: '#f472b6',
-          500: '#ec4899',
-          600: '#db2777',
-        },
-        plum: {
-          800: '#2d152e',
-          850: '#230f24',
-          900: '#180a19',
-          950: '#100511',
+        notion: {
+          bg: '#FFFFFF',
+          pageBg: '#FBFBFA',
+          sidebar: '#F7F7F5',
+          card: '#FFFFFF',
+          border: '#E9E9E7',
+          hover: '#EFEFED',
+          text: '#37352F',
+          muted: '#787774',
+          subtle: '#9B9A97',
+          tagBg: '#F1F1EF',
+          // Dark Mode Tokens
+          darkBg: '#191919',
+          darkSidebar: '#202020',
+          darkCard: '#252525',
+          darkBorder: '#2E2E2E',
+          darkHover: '#2C2C2C',
+          darkText: '#E3E3E0',
+          darkMuted: '#9B9B9B',
+          darkTagBg: '#2D2D2D'
         }
       },
       fontFamily: {
-        sans: ['Outfit', 'Inter', 'sans-serif'],
+        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+      },
+      borderRadius: {
+        DEFAULT: '6px',
+        lg: '8px',
+        xl: '10px',
       }
     },
   },

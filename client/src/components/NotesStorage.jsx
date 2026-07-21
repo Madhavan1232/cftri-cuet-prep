@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FileText, UploadCloud, Download, Trash2, Tag, Search, File, Image as ImageIcon, Sparkles, Eye, X, ExternalLink } from 'lucide-react';
+import { FileText, UploadCloud, Download, Trash2, Tag, Search, File, Image as ImageIcon, Eye, X, ExternalLink } from 'lucide-react';
 
 export default function NotesStorage({ notes = [], subjects = [], onUploadNote, onDeleteNote }) {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -63,14 +63,14 @@ export default function NotesStorage({ notes = [], subjects = [], onUploadNote, 
   };
 
   return (
-    <div className="dashboard-card space-y-6">
+    <div className="dashboard-card space-y-5">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
-          <h3 className="text-base font-bold text-slate-900 dark:text-pink-50 font-outfit flex items-center gap-2">
-            <FileText className="w-4 h-4 text-pink-500" />
-            Exam Notes & File Vault ✨
+          <h3 className="text-base font-semibold text-[#37352F] dark:text-[#E3E3E0] flex items-center gap-2">
+            <FileText className="w-4 h-4 text-[#787774]" />
+            Exam Notes & File Vault
           </h3>
-          <p className="text-xs text-slate-500 dark:text-pink-300/70">
+          <p className="text-xs text-[#787774] dark:text-[#9B9B9B]">
             Upload, store, organize, and view PDFs, lecture notes, and formula sheets
           </p>
         </div>
@@ -81,7 +81,7 @@ export default function NotesStorage({ notes = [], subjects = [], onUploadNote, 
         <div
           onDrop={handleDrop}
           onDragOver={handleDragOver}
-          className="border-2 border-dashed border-pink-200 dark:border-pink-900/60 hover:border-pink-500 dark:hover:border-pink-500 rounded-3xl p-6 text-center bg-pink-50/40 dark:bg-plum-900/30 transition-all cursor-pointer"
+          className="border border-dashed border-[#E9E9E7] dark:border-[#2E2E2E] hover:border-[#A4A4A0] dark:hover:border-[#666666] rounded-lg p-5 text-center bg-[#F7F7F5] dark:bg-[#202020] transition-colors cursor-pointer"
         >
           <input
             type="file"
@@ -90,29 +90,29 @@ export default function NotesStorage({ notes = [], subjects = [], onUploadNote, 
             className="hidden"
             accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.txt"
           />
-          <label htmlFor="fileInput" className="cursor-pointer block space-y-2">
-            <UploadCloud className="w-9 h-9 mx-auto text-pink-500 animate-bounce" />
-            <p className="text-sm font-semibold text-slate-700 dark:text-pink-100">
+          <label htmlFor="fileInput" className="cursor-pointer block space-y-1.5">
+            <UploadCloud className="w-7 h-7 mx-auto text-[#787774]" />
+            <p className="text-xs font-medium text-[#37352F] dark:text-[#E3E3E0]">
               {selectedFile ? (
-                <span className="font-bold text-pink-600 dark:text-pink-300">{selectedFile.name}</span>
+                <span className="font-semibold">{selectedFile.name}</span>
               ) : (
-                'Drag & drop exam notes here, or click to browse files 🌸'
+                'Drag & drop exam notes here, or click to browse files'
               )}
             </p>
-            <p className="text-xs text-pink-400 dark:text-pink-300/60">
+            <p className="text-[11px] text-[#787774] dark:text-[#9B9B9B]">
               Supports PDF, DOCX, Images (PNG, JPG), TXT
             </p>
           </label>
         </div>
 
         {selectedFile && (
-          <div className="flex items-center gap-3 bg-pink-50 dark:bg-plum-900 p-3 rounded-2xl">
+          <div className="flex items-center gap-3 bg-[#F7F7F5] dark:bg-[#202020] p-2.5 rounded border border-[#E9E9E7] dark:border-[#2E2E2E]">
             <div className="flex-1">
-              <label className="block text-xs font-semibold text-pink-600 dark:text-pink-300 mb-1">Tag with Subject:</label>
+              <label className="block text-xs font-medium text-[#787774] dark:text-[#9B9B9B] mb-1">Tag with Subject:</label>
               <select
                 value={subjectTag}
                 onChange={(e) => setSubjectTag(e.target.value)}
-                className="w-full px-3 py-1.5 rounded-xl border border-pink-200 dark:border-pink-900/60 bg-white dark:bg-plum-800 text-xs font-medium"
+                className="notion-input w-full text-xs"
               >
                 <option value="General">General</option>
                 {subjects.map(s => (
@@ -124,33 +124,33 @@ export default function NotesStorage({ notes = [], subjects = [], onUploadNote, 
             <button
               type="submit"
               disabled={isUploading}
-              className="px-5 py-2 mt-4 rounded-xl bg-gradient-to-r from-pink-500 to-rose-500 text-white text-xs font-semibold hover:from-pink-600 hover:to-rose-600 transition-colors shadow-sm disabled:opacity-50"
+              className="notion-btn text-xs mt-4 py-1.5 px-4 disabled:opacity-50"
             >
-              {isUploading ? 'Uploading...' : 'Save File ✨'}
+              {isUploading ? 'Uploading...' : 'Save File'}
             </button>
           </div>
         )}
       </form>
 
       {/* Filter and Search Bar */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-1">
         <div className="relative w-full sm:w-64">
-          <Search className="w-3.5 h-3.5 absolute left-3 top-3 text-pink-400" />
+          <Search className="w-3.5 h-3.5 absolute left-2.5 top-2.5 text-[#787774]" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search notes..."
-            className="w-full pl-8 pr-3 py-1.5 rounded-xl border border-pink-200 dark:border-pink-900/60 bg-white dark:bg-plum-900 text-xs focus:outline-none focus:ring-2 focus:ring-pink-500"
+            className="notion-input w-full pl-8 text-xs"
           />
         </div>
 
         <div className="flex items-center gap-2 w-full sm:w-auto">
-          <Tag className="w-3.5 h-3.5 text-pink-400" />
+          <Tag className="w-3.5 h-3.5 text-[#787774]" />
           <select
             value={filterTag}
             onChange={(e) => setFilterTag(e.target.value)}
-            className="px-3 py-1.5 rounded-xl border border-pink-200 dark:border-pink-900/60 bg-white dark:bg-plum-900 text-xs font-semibold"
+            className="notion-input text-xs font-medium"
           >
             <option value="All">All Categories</option>
             <option value="General">General</option>
@@ -162,30 +162,30 @@ export default function NotesStorage({ notes = [], subjects = [], onUploadNote, 
       </div>
 
       {/* Notes List */}
-      <div className="space-y-2">
+      <div className="space-y-1.5">
         {filteredNotes.length === 0 ? (
-          <p className="text-xs text-slate-400 italic py-4 text-center">No notes uploaded matching criteria.</p>
+          <p className="text-xs text-[#787774] dark:text-[#9B9B9B] italic py-4 text-center">No notes uploaded matching criteria.</p>
         ) : (
           filteredNotes.map((note) => (
             <div
               key={note._id}
-              className="flex items-center justify-between p-3 rounded-2xl bg-slate-50/70 dark:bg-plum-900/40 border border-slate-200/80 dark:border-pink-950/60 hover:border-pink-300 dark:hover:border-pink-800 transition-all group"
+              className="flex items-center justify-between p-2.5 rounded bg-white dark:bg-[#202020] border border-[#E9E9E7] dark:border-[#2E2E2E] hover:bg-[#EFEFED] dark:hover:bg-[#2C2C2C] transition-colors"
             >
-              <div className="flex items-center gap-3 min-w-0 flex-1">
-                <div className="p-2 rounded-xl bg-pink-500/10 text-pink-600 dark:text-pink-300 shrink-0">
+              <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                <div className="p-1.5 rounded bg-[#F1F1EF] dark:bg-[#2D2D2D] text-[#787774] shrink-0">
                   {isImageFile(note) ? (
-                    <ImageIcon className="w-4 h-4" />
+                    <ImageIcon className="w-3.5 h-3.5" />
                   ) : (
-                    <File className="w-4 h-4" />
+                    <File className="w-3.5 h-3.5" />
                   )}
                 </div>
 
                 <div className="min-w-0 flex-1">
-                  <h4 className="text-xs font-bold text-slate-900 dark:text-pink-50 truncate">
+                  <h4 className="text-xs font-medium text-[#37352F] dark:text-[#E3E3E0] truncate">
                     {note.originalName}
                   </h4>
-                  <div className="flex items-center gap-2 text-[10px] text-pink-400 dark:text-pink-300/60 mt-0.5">
-                    <span className="px-1.5 py-0.5 rounded bg-pink-100 dark:bg-pink-900/50 text-pink-700 dark:text-pink-300 font-semibold">
+                  <div className="flex items-center gap-2 text-[10px] text-[#787774] dark:text-[#9B9B9B] mt-0.5">
+                    <span className="px-1.5 py-0.2 rounded bg-[#F1F1EF] dark:bg-[#2D2D2D] text-[#787774] dark:text-[#9B9B9B]">
                       {note.subjectTag}
                     </span>
                     <span>{formatFileSize(note.fileSize)}</span>
@@ -198,27 +198,27 @@ export default function NotesStorage({ notes = [], subjects = [], onUploadNote, 
               <div className="flex items-center gap-1 shrink-0">
                 <button
                   onClick={() => setPreviewNote(note)}
-                  className="p-1.5 rounded-lg text-pink-500 hover:text-pink-700 hover:bg-pink-100 dark:hover:bg-plum-800 transition-colors"
+                  className="p-1 rounded text-[#787774] hover:bg-[#EFEFED] dark:hover:bg-[#333333] transition-colors"
                   title="View / Preview File"
                 >
-                  <Eye className="w-4 h-4" />
+                  <Eye className="w-3.5 h-3.5" />
                 </button>
 
                 <a
                   href={`/api/notes/${note._id}/download`}
                   download
-                  className="p-1.5 rounded-lg text-pink-400 hover:text-pink-600 hover:bg-pink-100 dark:hover:bg-plum-800 transition-colors"
+                  className="p-1 rounded text-[#787774] hover:bg-[#EFEFED] dark:hover:bg-[#333333] transition-colors"
                   title="Download File"
                 >
-                  <Download className="w-4 h-4" />
+                  <Download className="w-3.5 h-3.5" />
                 </a>
 
                 <button
                   onClick={() => onDeleteNote(note._id)}
-                  className="p-1.5 rounded-lg text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-colors"
+                  className="p-1 rounded text-[#787774] hover:text-red-500 hover:bg-[#EFEFED] dark:hover:bg-[#333333] transition-colors"
                   title="Delete Note"
                 >
-                  <Trash2 className="w-4 h-4" />
+                  <Trash2 className="w-3.5 h-3.5" />
                 </button>
               </div>
             </div>
@@ -228,15 +228,14 @@ export default function NotesStorage({ notes = [], subjects = [], onUploadNote, 
 
       {/* Inline File Preview Modal */}
       {previewNote && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm animate-fadeIn">
-          <div className="bg-white dark:bg-plum-900 border border-pink-200 dark:border-pink-900/60 rounded-3xl p-5 max-w-4xl w-full shadow-2xl space-y-4 max-h-[90vh] flex flex-col">
-            {/* Modal Header */}
-            <div className="flex items-center justify-between border-b border-pink-100 dark:border-pink-950/80 pb-3 shrink-0">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#191919]/60 backdrop-blur-xs animate-fadeIn">
+          <div className="bg-white dark:bg-[#202020] border border-[#E9E9E7] dark:border-[#2E2E2E] rounded-lg p-5 max-w-4xl w-full shadow-lg space-y-4 max-h-[90vh] flex flex-col">
+            <div className="flex items-center justify-between border-b border-[#E9E9E7] dark:border-[#2E2E2E] pb-2.5 shrink-0">
               <div className="flex items-center gap-2 min-w-0">
-                <span className="px-2 py-0.5 rounded-lg text-[10px] font-bold bg-pink-100 dark:bg-pink-900/50 text-pink-700 dark:text-pink-300 shrink-0">
+                <span className="px-1.5 py-0.5 rounded text-[10px] bg-[#F1F1EF] dark:bg-[#2D2D2D] text-[#787774] dark:text-[#9B9B9B] shrink-0">
                   {previewNote.subjectTag}
                 </span>
-                <h4 className="text-sm font-bold text-slate-900 dark:text-pink-50 truncate">
+                <h4 className="text-xs font-semibold text-[#37352F] dark:text-[#E3E3E0] truncate">
                   {previewNote.originalName}
                 </h4>
               </div>
@@ -246,7 +245,7 @@ export default function NotesStorage({ notes = [], subjects = [], onUploadNote, 
                   href={`/uploads/${previewNote.filename}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-pink-50 dark:bg-plum-800 text-pink-600 dark:text-pink-300 text-xs font-semibold hover:bg-pink-100 dark:hover:bg-plum-700 transition-colors"
+                  className="notion-btn text-xs py-1 px-2.5 flex items-center gap-1"
                 >
                   <ExternalLink className="w-3.5 h-3.5" />
                   <span>Open in Tab</span>
@@ -255,7 +254,7 @@ export default function NotesStorage({ notes = [], subjects = [], onUploadNote, 
                 <a
                   href={`/api/notes/${previewNote._id}/download`}
                   download
-                  className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-pink-500 text-white text-xs font-semibold hover:bg-pink-600 transition-colors shadow-sm"
+                  className="notion-btn text-xs py-1 px-2.5 flex items-center gap-1"
                 >
                   <Download className="w-3.5 h-3.5" />
                   <span>Download</span>
@@ -263,39 +262,38 @@ export default function NotesStorage({ notes = [], subjects = [], onUploadNote, 
 
                 <button
                   onClick={() => setPreviewNote(null)}
-                  className="p-1.5 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-pink-200 hover:bg-pink-50 dark:hover:bg-plum-800"
+                  className="p-1 rounded text-[#787774] hover:bg-[#EFEFED] dark:hover:bg-[#333333]"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-4 h-4" />
                 </button>
               </div>
             </div>
 
-            {/* Modal Body Preview Content */}
-            <div className="flex-1 overflow-auto flex items-center justify-center p-2 rounded-2xl bg-slate-50 dark:bg-plum-950/60 border border-pink-100/50 dark:border-pink-950/60">
+            <div className="flex-1 overflow-auto flex items-center justify-center p-2 rounded bg-[#F7F7F5] dark:bg-[#191919] border border-[#E9E9E7] dark:border-[#2E2E2E]">
               {isImageFile(previewNote) ? (
                 <img
                   src={`/uploads/${previewNote.filename}`}
                   alt={previewNote.originalName}
-                  className="max-h-[70vh] w-auto max-w-full rounded-2xl object-contain shadow-md"
+                  className="max-h-[70vh] w-auto max-w-full rounded object-contain"
                 />
               ) : isPdfFile(previewNote) ? (
                 <iframe
                   src={`/uploads/${previewNote.filename}`}
-                  className="w-full h-[70vh] rounded-2xl border-0"
+                  className="w-full h-[70vh] rounded border-0"
                   title={previewNote.originalName}
                 />
               ) : (
-                <div className="text-center py-12 space-y-3">
-                  <File className="w-12 h-12 mx-auto text-pink-400 animate-pulse" />
-                  <p className="text-sm font-semibold text-slate-700 dark:text-pink-200">
+                <div className="text-center py-10 space-y-3">
+                  <File className="w-10 h-10 mx-auto text-[#787774]" />
+                  <p className="text-xs font-medium text-[#37352F] dark:text-[#E3E3E0]">
                     Preview not available directly for this file format ({previewNote.originalName})
                   </p>
-                  <div className="flex justify-center gap-3 pt-2">
+                  <div className="flex justify-center gap-2 pt-1">
                     <a
                       href={`/uploads/${previewNote.filename}`}
                       target="_blank"
                       rel="noreferrer"
-                      className="px-4 py-2 rounded-xl bg-pink-500 text-white text-xs font-semibold hover:bg-pink-600"
+                      className="notion-btn text-xs"
                     >
                       Open in New Browser Tab
                     </a>

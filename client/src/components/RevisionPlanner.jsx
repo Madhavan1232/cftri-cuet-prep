@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CheckSquare, Plus, Trash2, Calendar, Sparkles, CheckCircle2, Circle, Heart } from 'lucide-react';
+import { CheckSquare, Plus, Trash2, Calendar, CheckCircle2, Circle } from 'lucide-react';
 
 export default function RevisionPlanner({ tasks = [], onAddTask, onToggleTask, onDeleteTask }) {
   const [title, setTitle] = useState('');
@@ -17,41 +17,39 @@ export default function RevisionPlanner({ tasks = [], onAddTask, onToggleTask, o
   const completedCount = tasks.filter(t => t.completed).length;
 
   return (
-    <div className="dashboard-card space-y-5">
+    <div className="dashboard-card space-y-4">
       {/* Saturday Highlight Banner */}
       {isSaturday ? (
-        <div className="p-4 rounded-2xl bg-gradient-to-r from-pink-500/20 via-rose-500/15 to-purple-500/20 border border-pink-300 dark:border-pink-800/60 flex items-center justify-between shadow-sm">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-2xl bg-gradient-to-tr from-pink-500 to-rose-500 text-white font-bold shadow-md shadow-pink-500/30">
-              <Sparkles className="w-5 h-5 animate-spin" />
-            </div>
+        <div className="p-3 rounded bg-[#F7F7F5] dark:bg-[#202020] border border-[#E9E9E7] dark:border-[#2E2E2E] flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Calendar className="w-4 h-4 text-[#787774]" />
             <div>
-              <h4 className="text-sm font-bold text-pink-950 dark:text-pink-100 flex items-center gap-1.5">
-                Saturday Revision & Glow Up Day! 🌸
+              <h4 className="text-xs font-semibold text-[#37352F] dark:text-[#E3E3E0]">
+                Saturday Revision Day
               </h4>
-              <p className="text-xs text-pink-900/80 dark:text-pink-200/80">
-                Time to clear weekly backlogs, review key formulas, and celebrate your progress! ✨
+              <p className="text-xs text-[#787774] dark:text-[#9B9B9B]">
+                Time to review pending revision tasks and reinforce core concepts.
               </p>
             </div>
           </div>
         </div>
       ) : (
-        <div className="p-3 rounded-2xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-between">
-          <div className="flex items-center gap-2 text-xs font-medium text-pink-700 dark:text-pink-300">
-            <Heart className="w-4 h-4 text-pink-500 fill-pink-500" />
-            <span>Saturday Revision Planner (Continuous revision vault)</span>
+        <div className="p-2.5 rounded bg-[#F7F7F5] dark:bg-[#202020] border border-[#E9E9E7] dark:border-[#2E2E2E]">
+          <div className="flex items-center gap-2 text-xs font-medium text-[#787774] dark:text-[#9B9B9B]">
+            <Calendar className="w-3.5 h-3.5" />
+            <span>Saturday Revision Planner (Backlog checklist)</span>
           </div>
         </div>
       )}
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
-          <h3 className="text-base font-bold text-slate-900 dark:text-pink-50 font-outfit flex items-center gap-2">
-            <CheckSquare className="w-4 h-4 text-pink-500" />
+          <h3 className="text-base font-semibold text-[#37352F] dark:text-[#E3E3E0] flex items-center gap-2">
+            <CheckSquare className="w-4 h-4 text-[#787774]" />
             Revision Checklist & Backlog Planner
           </h3>
-          <p className="text-xs text-slate-500 dark:text-pink-300/70">
-            {completedCount} of {tasks.length} revision items completed ✨
+          <p className="text-xs text-[#787774] dark:text-[#9B9B9B]">
+            {completedCount} of {tasks.length} revision tasks completed
           </p>
         </div>
       </div>
@@ -63,14 +61,14 @@ export default function RevisionPlanner({ tasks = [], onAddTask, onToggleTask, o
           required
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="e.g. Revise Food Chemistry reaction mechanisms 💖"
-          className="flex-1 px-3.5 py-2 rounded-xl border border-pink-200 dark:border-pink-900/60 bg-white dark:bg-plum-900 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500"
+          placeholder="e.g. Revise Organic Chemistry Mechanisms & MCQs"
+          className="notion-input flex-1 text-xs"
         />
 
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="px-3 py-2 rounded-xl border border-pink-200 dark:border-pink-900/60 bg-white dark:bg-plum-900 text-xs font-semibold"
+          className="notion-input text-xs font-medium"
         >
           <option value="CFTRI">CFTRI</option>
           <option value="CUET">CUET</option>
@@ -79,54 +77,54 @@ export default function RevisionPlanner({ tasks = [], onAddTask, onToggleTask, o
 
         <button
           type="submit"
-          className="px-4 py-2 rounded-xl bg-gradient-to-r from-pink-500 to-rose-500 text-white text-xs font-semibold hover:from-pink-600 hover:to-rose-600 transition-all flex items-center gap-1 shrink-0 shadow-sm shadow-pink-500/25"
+          className="notion-btn text-xs py-1.5 px-3 flex items-center gap-1 shrink-0"
         >
-          <Plus className="w-4 h-4" />
-          <span>Add Item</span>
+          <Plus className="w-3.5 h-3.5" />
+          <span>Add Task</span>
         </button>
       </form>
 
       {/* Tasks List */}
-      <div className="space-y-2">
+      <div className="space-y-1.5">
         {tasks.length === 0 ? (
-          <p className="text-xs text-slate-400 italic py-3 text-center">No revision tasks added yet.</p>
+          <p className="text-xs text-[#787774] dark:text-[#9B9B9B] italic py-3 text-center">No revision tasks added yet.</p>
         ) : (
           tasks.map((task) => (
             <div
               key={task._id}
-              className={`flex items-center justify-between p-3 rounded-2xl border transition-all ${
+              className={`flex items-center justify-between p-2.5 rounded border transition-colors ${
                 task.completed
-                  ? 'bg-pink-50/40 dark:bg-plum-900/20 border-pink-100/40 dark:border-pink-950/40 opacity-70'
-                  : 'bg-slate-50/70 dark:bg-plum-900/50 border-slate-200/80 dark:border-pink-950/60'
+                  ? 'bg-[#F9F9F8] dark:bg-[#202020] border-[#E9E9E7] dark:border-[#2E2E2E] opacity-70'
+                  : 'bg-white dark:bg-[#252525] border-[#E9E9E7] dark:border-[#2E2E2E]'
               }`}
             >
-              <div className="flex items-center gap-3 flex-1 min-w-0">
+              <div className="flex items-center gap-2.5 flex-1 min-w-0">
                 <button
                   onClick={() => onToggleTask(task._id, !task.completed)}
-                  className="text-pink-400 hover:text-pink-600 transition-colors shrink-0"
+                  className="text-[#787774] hover:text-[#37352F] dark:hover:text-[#E3E3E0] transition-colors shrink-0"
                 >
                   {task.completed ? (
-                    <CheckCircle2 className="w-5 h-5 text-pink-500 fill-pink-500/20" />
+                    <CheckCircle2 className="w-4 h-4 text-[#37352F] dark:text-[#E3E3E0]" />
                   ) : (
-                    <Circle className="w-5 h-5 text-pink-300 dark:text-pink-900" />
+                    <Circle className="w-4 h-4 text-[#D3D3D0] dark:text-[#3E3E3E]" />
                   )}
                 </button>
 
-                <span className={`text-sm font-medium truncate ${task.completed ? 'line-through text-slate-400 dark:text-pink-300/50' : 'text-slate-800 dark:text-pink-100'}`}>
+                <span className={`text-xs font-medium truncate ${task.completed ? 'line-through text-[#787774] dark:text-[#9B9B9B]' : 'text-[#37352F] dark:text-[#E3E3E0]'}`}>
                   {task.title}
                 </span>
 
-                <span className="px-2 py-0.5 rounded-lg text-[10px] font-bold bg-pink-100 dark:bg-pink-900/50 text-pink-700 dark:text-pink-300 shrink-0">
+                <span className="px-1.5 py-0.5 rounded text-[10px] bg-[#F1F1EF] dark:bg-[#2D2D2D] text-[#787774] dark:text-[#9B9B9B] shrink-0">
                   {task.category}
                 </span>
               </div>
 
               <button
                 onClick={() => onDeleteTask(task._id)}
-                className="p-1.5 text-slate-400 hover:text-rose-500 rounded-lg transition-colors ml-2"
+                className="p-1 text-[#787774] hover:text-red-500 rounded transition-colors ml-2"
                 title="Delete task"
               >
-                <Trash2 className="w-4 h-4" />
+                <Trash2 className="w-3.5 h-3.5" />
               </button>
             </div>
           ))

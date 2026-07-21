@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Play, Pause, RotateCcw, SkipForward, Sparkles, Heart } from 'lucide-react';
+import { Play, Pause, RotateCcw, SkipForward, Timer } from 'lucide-react';
 
 export default function PomodoroTimer({
   workMinutes = 25,
@@ -40,9 +40,9 @@ export default function PomodoroTimer({
         osc.stop(ctx.currentTime + start + duration);
       };
 
-      playTone(523.25, 0, 0.4); // C5
-      playTone(659.25, 0.2, 0.4); // E5
-      playTone(783.99, 0.4, 0.6); // G5
+      playTone(523.25, 0, 0.4);
+      playTone(659.25, 0.2, 0.4);
+      playTone(783.99, 0.4, 0.6);
     } catch (e) {
       console.log('Audio chime error:', e);
     }
@@ -110,70 +110,64 @@ export default function PomodoroTimer({
     <div className="dashboard-card space-y-6 flex flex-col items-center text-center max-w-lg mx-auto">
       <div className="w-full flex items-center justify-between">
         <div>
-          <h3 className="text-base font-bold text-slate-900 dark:text-pink-50 font-outfit flex items-center gap-1.5">
-            <Sparkles className="w-4 h-4 text-pink-500" /> Focus Pomodoro Sanctuary
+          <h3 className="text-base font-semibold text-[#37352F] dark:text-[#E3E3E0] flex items-center gap-2">
+            <Timer className="w-4 h-4 text-[#787774]" /> Pomodoro Focus Timer
           </h3>
-          <p className="text-xs text-slate-500 dark:text-pink-300/70">
-            Cycle #{cycleCount} • {mode === 'work' ? 'Deep Focus Session 🌸' : mode === 'shortBreak' ? 'Short Rest ☕' : 'Long Rest 🌿'}
+          <p className="text-xs text-[#787774] dark:text-[#9B9B9B]">
+            Cycle #{cycleCount} • {mode === 'work' ? 'Focus Session' : mode === 'shortBreak' ? 'Short Break' : 'Long Break'}
           </p>
         </div>
 
-        <span className={`px-3 py-1 rounded-full text-xs font-bold border ${
-          mode === 'work'
-            ? 'bg-pink-500/10 text-pink-600 dark:text-pink-300 border-pink-500/20'
-            : 'bg-purple-500/10 text-purple-600 dark:text-purple-300 border-purple-500/20'
-        }`}>
-          {mode === 'work' ? '💖 Focus 25m' : mode === 'shortBreak' ? '🍵 Rest 5m' : '🌴 Rest 15m'}
+        <span className="px-2.5 py-0.5 rounded text-xs font-medium bg-[#F1F1EF] dark:bg-[#2D2D2D] text-[#787774] dark:text-[#9B9B9B] border border-[#E9E9E7] dark:border-[#2E2E2E]">
+          {mode === 'work' ? 'Focus 25m' : mode === 'shortBreak' ? 'Short Break 5m' : 'Long Break 15m'}
         </span>
       </div>
 
       {/* Mode Switches */}
-      <div className="flex items-center gap-1 bg-pink-50 dark:bg-plum-900 p-1 rounded-2xl w-full">
+      <div className="flex items-center gap-1 bg-[#F7F7F5] dark:bg-[#202020] p-1 rounded border border-[#E9E9E7] dark:border-[#2E2E2E] w-full">
         <button
           onClick={() => { setIsRunning(false); setMode('work'); }}
-          className={`flex-1 py-2 text-xs font-bold rounded-xl transition-all ${
-            mode === 'work' ? 'bg-white dark:bg-plum-800 text-pink-600 dark:text-pink-300 shadow-sm' : 'text-slate-500 dark:text-pink-300/60'
+          className={`flex-1 py-1 text-xs font-medium rounded transition-colors ${
+            mode === 'work' ? 'bg-white dark:bg-[#2C2C2C] text-[#37352F] dark:text-[#E3E3E0] shadow-[0_1px_2px_rgba(0,0,0,0.05)]' : 'text-[#787774] dark:text-[#9B9B9B]'
           }`}
         >
           Focus (25m)
         </button>
         <button
           onClick={() => { setIsRunning(false); setMode('shortBreak'); }}
-          className={`flex-1 py-2 text-xs font-bold rounded-xl transition-all ${
-            mode === 'shortBreak' ? 'bg-white dark:bg-plum-800 text-purple-600 dark:text-purple-300 shadow-sm' : 'text-slate-500 dark:text-pink-300/60'
+          className={`flex-1 py-1 text-xs font-medium rounded transition-colors ${
+            mode === 'shortBreak' ? 'bg-white dark:bg-[#2C2C2C] text-[#37352F] dark:text-[#E3E3E0] shadow-[0_1px_2px_rgba(0,0,0,0.05)]' : 'text-[#787774] dark:text-[#9B9B9B]'
           }`}
         >
-          Short Rest (5m)
+          Short Break (5m)
         </button>
         <button
           onClick={() => { setIsRunning(false); setMode('longBreak'); }}
-          className={`flex-1 py-2 text-xs font-bold rounded-xl transition-all ${
-            mode === 'longBreak' ? 'bg-white dark:bg-plum-800 text-rose-600 dark:text-rose-300 shadow-sm' : 'text-slate-500 dark:text-pink-300/60'
+          className={`flex-1 py-1 text-xs font-medium rounded transition-colors ${
+            mode === 'longBreak' ? 'bg-white dark:bg-[#2C2C2C] text-[#37352F] dark:text-[#E3E3E0] shadow-[0_1px_2px_rgba(0,0,0,0.05)]' : 'text-[#787774] dark:text-[#9B9B9B]'
           }`}
         >
-          Long Rest (15m)
+          Long Break (15m)
         </button>
       </div>
 
       {/* SVG Circular Timer */}
-      <div className="relative w-56 h-56 flex items-center justify-center">
+      <div className="relative w-52 h-52 flex items-center justify-center">
         <svg className="w-full h-full transform -rotate-90" viewBox="0 0 160 160">
           <circle
             cx="80"
             cy="80"
             r="70"
-            className="stroke-pink-100 dark:stroke-pink-950/60"
-            strokeWidth="10"
+            className="stroke-[#E9E9E7] dark:stroke-[#2E2E2E]"
+            strokeWidth="6"
             fill="transparent"
           />
           <circle
             cx="80"
             cy="80"
             r="70"
-            className={`transition-all duration-1000 ${
-              mode === 'work' ? 'stroke-pink-500' : 'stroke-purple-400'
-            }`}
-            strokeWidth="10"
+            className="stroke-[#37352F] dark:stroke-[#E3E3E0] transition-all duration-1000"
+            strokeWidth="6"
             strokeDasharray="440"
             strokeDashoffset={strokeDashoffset}
             strokeLinecap="round"
@@ -182,66 +176,61 @@ export default function PomodoroTimer({
         </svg>
 
         <div className="absolute flex flex-col items-center">
-          <span className="text-4xl font-extrabold font-mono tracking-tight text-slate-900 dark:text-pink-50">
+          <span className="text-4xl font-semibold font-mono tracking-tight text-[#37352F] dark:text-[#E3E3E0]">
             {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
           </span>
-          <span className="text-xs text-pink-500 dark:text-pink-400 font-bold uppercase tracking-wider mt-1 flex items-center gap-1">
-            {isRunning ? <Sparkles className="w-3 h-3 animate-spin" /> : null}
-            {isRunning ? 'Flowing...' : 'Paused'}
+          <span className="text-xs text-[#787774] dark:text-[#9B9B9B] uppercase tracking-wider font-medium mt-1">
+            {isRunning ? 'Running' : 'Paused'}
           </span>
         </div>
       </div>
 
       {/* Action Controls */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2.5">
         <button
           onClick={resetTimer}
-          className="p-3 rounded-full bg-pink-50 dark:bg-plum-900 text-pink-600 dark:text-pink-300 hover:bg-pink-100 dark:hover:bg-plum-800 transition-colors"
+          className="p-2.5 rounded bg-white dark:bg-[#2A2A2A] border border-[#E9E9E7] dark:border-[#2E2E2E] text-[#787774] hover:bg-[#EFEFED] dark:hover:bg-[#333333] transition-colors"
           title="Reset Timer"
         >
-          <RotateCcw className="w-5 h-5" />
+          <RotateCcw className="w-4 h-4" />
         </button>
 
         <button
           onClick={toggleStart}
-          className={`px-8 py-3.5 rounded-full font-bold text-white shadow-lg transition-all transform active:scale-95 flex items-center gap-2 ${
-            isRunning
-              ? 'bg-gradient-to-r from-amber-500 to-rose-500 shadow-amber-500/20'
-              : 'bg-gradient-to-r from-pink-500 via-rose-500 to-purple-500 shadow-pink-500/30'
-          }`}
+          className="px-6 py-2 rounded font-medium text-sm bg-[#37352F] dark:bg-[#E3E3E0] text-white dark:text-[#191919] hover:bg-[#2A2A28] dark:hover:bg-[#D0D0CD] transition-colors shadow-[0_1px_2px_rgba(0,0,0,0.05)] flex items-center gap-2"
         >
-          {isRunning ? <Pause className="w-5 h-5 fill-white" /> : <Play className="w-5 h-5 fill-white ml-0.5" />}
-          <span>{isRunning ? 'Pause' : 'Start Focus ✨'}</span>
+          {isRunning ? <Pause className="w-4 h-4 fill-white dark:fill-[#191919]" /> : <Play className="w-4 h-4 fill-white dark:fill-[#191919] ml-0.5" />}
+          <span>{isRunning ? 'Pause' : 'Start Focus'}</span>
         </button>
 
         <button
           onClick={skipSession}
-          className="p-3 rounded-full bg-pink-50 dark:bg-plum-900 text-pink-600 dark:text-pink-300 hover:bg-pink-100 dark:hover:bg-plum-800 transition-colors"
+          className="p-2.5 rounded bg-white dark:bg-[#2A2A2A] border border-[#E9E9E7] dark:border-[#2E2E2E] text-[#787774] hover:bg-[#EFEFED] dark:hover:bg-[#333333] transition-colors"
           title="Skip Session"
         >
-          <SkipForward className="w-5 h-5" />
+          <SkipForward className="w-4 h-4" />
         </button>
       </div>
 
       {/* Auto-Log Settings */}
-      <div className="w-full pt-4 border-t border-pink-100 dark:border-pink-950/80 space-y-2 text-left">
-        <label className="flex items-center gap-2 text-xs font-medium text-slate-700 dark:text-pink-200 cursor-pointer">
+      <div className="w-full pt-3 border-t border-[#E9E9E7] dark:border-[#2E2E2E] space-y-2 text-left">
+        <label className="flex items-center gap-2 text-xs font-medium text-[#37352F] dark:text-[#E3E3E0] cursor-pointer">
           <input
             type="checkbox"
             checked={autoLog}
             onChange={(e) => setAutoLog(e.target.checked)}
-            className="rounded border-pink-300 text-pink-600 focus:ring-pink-500"
+            className="rounded border-[#E9E9E7] accent-[#37352F]"
           />
-          <span>Auto-log completed focus session to study graph 💖</span>
+          <span>Auto-log completed focus session to study graph</span>
         </label>
 
         {autoLog && (
-          <div className="flex items-center gap-2 pt-1">
-            <span className="text-xs text-slate-500 dark:text-pink-300/70">Log under:</span>
+          <div className="flex items-center gap-2 pt-0.5">
+            <span className="text-xs text-[#787774] dark:text-[#9B9B9B]">Log under:</span>
             <select
               value={selectedSubject}
               onChange={(e) => setSelectedSubject(e.target.value)}
-              className="px-2.5 py-1 rounded-xl border border-pink-200 dark:border-pink-900/60 bg-pink-50/50 dark:bg-plum-900 text-xs font-medium"
+              className="notion-input text-xs py-1"
             >
               {subjects.map(s => (
                 <option key={s._id} value={s.name}>{s.name}</option>
