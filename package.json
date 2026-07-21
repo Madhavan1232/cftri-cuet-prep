@@ -1,7 +1,7 @@
 {
   "name": "cftri-cuet-exam-prep-dashboard",
   "version": "1.0.0",
-  "description": "Personal CFTRI & CUET Exam Prep Dashboard",
+  "description": "Personal CFTRI & CUET Exam Prep Dashboard - Notion Design System",
   "scripts": {
     "install-all": "cd server && npm install && cd ../client && npm install",
     "build": "cd client && npm install && npm run build && cd ../server && npm install",
