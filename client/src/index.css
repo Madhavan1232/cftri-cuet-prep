@@ -27,10 +27,10 @@
   /* Notion Card aesthetics */
   .dashboard-card {
     @apply bg-white dark:bg-[#252525]
-           border border-[#E9E9E7] dark:border-[#2E2E2E]
+           border border-[#DFDFDC] dark:border-[#383838]
            rounded-lg p-4 sm:p-5
            transition-colors
-           shadow-[0_1px_2px_rgba(0,0,0,0.03)]
+           shadow-[0_1px_2px_rgba(0,0,0,0.04)]
            w-full;          /* never exceed container */
   }
 
@@ -39,7 +39,7 @@
     @apply h-8                          /* fixed 32 px height everywhere */
            px-3 rounded
            bg-white dark:bg-[#202020]
-           border border-[#E9E9E7] dark:border-[#2E2E2E]
+           border border-[#DFDFDC] dark:border-[#383838]
            text-sm text-[#37352F] dark:text-[#E3E3E0]
            focus:outline-none focus:border-[#A4A4A0] dark:focus:border-[#666666]
            transition-colors
@@ -53,7 +53,7 @@
            px-3 rounded
            font-medium text-sm
            bg-white dark:bg-[#2A2A2A]
-           border border-[#E9E9E7] dark:border-[#2E2E2E]
+           border border-[#DFDFDC] dark:border-[#383838]
            text-[#37352F] dark:text-[#E3E3E0]
            hover:bg-[#EFEFED] dark:hover:bg-[#333333]
            transition-colors
