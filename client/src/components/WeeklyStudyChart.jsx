@@ -164,7 +164,7 @@ export default function WeeklyStudyChart({ studyLogs = [], subjects = [], onLogH
       <div className="h-60 w-full pt-1">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="4 4" stroke={isDark ? '#555555' : '#A0A09B'} strokeWidth={1.2} />
+            <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#888888' : '#787774'} strokeWidth={1.5} strokeOpacity={0.8} />
             <XAxis dataKey="name" stroke={isDark ? '#9B9B9B' : '#787774'} fontSize={12} />
             <YAxis stroke={isDark ? '#9B9B9B' : '#787774'} fontSize={12} unit="h" />
             <Tooltip
