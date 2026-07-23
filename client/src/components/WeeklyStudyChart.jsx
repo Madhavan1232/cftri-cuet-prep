@@ -89,64 +89,47 @@ export default function WeeklyStudyChart({ studyLogs = [], subjects = [], onLogH
 
   return (
     <div className="dashboard-card space-y-5">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div>
-          <div className="flex items-center gap-2">
-            <h3 className="text-base font-semibold text-[#37352F] dark:text-[#E3E3E0]">
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+        <div className="min-w-0">
+          <div className="flex items-center gap-2 flex-wrap">
+            <h3 className="text-sm font-semibold text-[#37352F] dark:text-[#E3E3E0]">
               Weekly Study Hours Graph
             </h3>
-
             <button
               onClick={() => setShowManageModal(true)}
-              className="px-2 py-0.5 rounded text-xs font-medium bg-[#F1F1EF] dark:bg-[#2D2D2D] text-[#787774] dark:text-[#9B9B9B] border border-[#E9E9E7] dark:border-[#2E2E2E] hover:bg-[#EFEFED] dark:hover:bg-[#333333] transition-colors flex items-center gap-1"
+              className="inline-flex items-center gap-1 px-2 h-6 rounded text-[11px] font-medium bg-[#F1F1EF] dark:bg-[#2D2D2D] text-[#787774] dark:text-[#9B9B9B] border border-[#E9E9E7] dark:border-[#2E2E2E] hover:bg-[#EFEFED] dark:hover:bg-[#333333] transition-colors whitespace-nowrap"
               title="Add or Remove Subjects"
             >
-              <Settings className="w-3 h-3 text-[#787774]" />
+              <Settings className="w-3 h-3" />
               <span>Edit Subjects</span>
             </button>
           </div>
-          <p className="text-xs text-[#787774] dark:text-[#9B9B9B]">
+          <p className="text-xs text-[#787774] dark:text-[#9B9B9B] mt-0.5">
             Hours logged per subject across the current week
           </p>
         </div>
 
         {/* Quick Log Inline Form */}
-        <form onSubmit={handleSubmitLog} className="flex items-center gap-2 flex-wrap sm:flex-nowrap bg-[#F7F7F5] dark:bg-[#202020] p-1.5 rounded border border-[#E9E9E7] dark:border-[#2E2E2E]">
+        <form onSubmit={handleSubmitLog} className="flex items-center gap-1.5 flex-wrap sm:flex-nowrap bg-[#F7F7F5] dark:bg-[#202020] p-1.5 rounded border border-[#E9E9E7] dark:border-[#2E2E2E]">
           <input
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            className="notion-input text-xs font-mono py-1 px-2"
+            className="notion-input text-xs font-mono w-36"
           />
-
-          <div className="flex items-center gap-1">
-            <select
-              value={selectedSubject || (subjects[0]?.name || '')}
-              onChange={(e) => {
-                if (e.target.value === '__manage__') {
-                  setShowManageModal(true);
-                } else {
-                  setSelectedSubject(e.target.value);
-                }
-              }}
-              className="notion-input text-xs py-1 px-2 max-w-[130px] truncate"
-            >
-              {subjects.map(s => (
-                <option key={s._id || s.name} value={s.name}>{s.name}</option>
-              ))}
-              <option value="__manage__">+ Manage Subjects...</option>
-            </select>
-
-            <button
-              type="button"
-              onClick={() => setShowManageModal(true)}
-              className="p-1.5 rounded bg-white dark:bg-[#2A2A2A] border border-[#E9E9E7] dark:border-[#2E2E2E] text-[#787774] dark:text-[#9B9B9B] hover:bg-[#EFEFED] shrink-0"
-              title="Add or Remove subjects"
-            >
-              <Edit3 className="w-3.5 h-3.5" />
-            </button>
-          </div>
-
+          <select
+            value={selectedSubject || (subjects[0]?.name || '')}
+            onChange={(e) => {
+              if (e.target.value === '__manage__') setShowManageModal(true);
+              else setSelectedSubject(e.target.value);
+            }}
+            className="notion-input text-xs flex-1 min-w-[100px]"
+          >
+            {subjects.map(s => (
+              <option key={s._id || s.name} value={s.name}>{s.name}</option>
+            ))}
+            <option value="__manage__">+ Manage Subjects...</option>
+          </select>
           <div className="flex items-center gap-1">
             <input
               type="number"
@@ -155,9 +138,9 @@ export default function WeeklyStudyChart({ studyLogs = [], subjects = [], onLogH
               max="24"
               value={hours}
               onChange={(e) => setHours(e.target.value)}
-              className="notion-input w-12 text-xs font-mono py-1 px-1.5"
+              className="notion-input w-14 text-xs font-mono text-center"
             />
-            <span className="text-xs text-[#787774] dark:text-[#9B9B9B]">hrs</span>
+            <span className="text-xs text-[#787774] dark:text-[#9B9B9B] whitespace-nowrap">hrs</span>
           </div>
 
           <button

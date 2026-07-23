@@ -135,7 +135,7 @@ export default function NotesStorage({ notes = [], subjects = [], onUploadNote, 
       {/* Filter and Search Bar */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-1">
         <div className="relative w-full sm:w-64">
-          <Search className="w-3.5 h-3.5 absolute left-2.5 top-2.5 text-[#787774]" />
+          <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-[#787774] pointer-events-none" />
           <input
             type="text"
             value={searchQuery}
@@ -146,18 +146,20 @@ export default function NotesStorage({ notes = [], subjects = [], onUploadNote, 
         </div>
 
         <div className="flex items-center gap-2 w-full sm:w-auto">
-          <Tag className="w-3.5 h-3.5 text-[#787774]" />
-          <select
-            value={filterTag}
-            onChange={(e) => setFilterTag(e.target.value)}
-            className="notion-input text-xs font-medium"
-          >
-            <option value="All">All Categories</option>
-            <option value="General">General</option>
-            {subjects.map(s => (
-              <option key={s._id} value={s.name}>{s.name}</option>
-            ))}
-          </select>
+          <div className="relative w-full sm:w-auto">
+            <Tag className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-[#787774] pointer-events-none" />
+            <select
+              value={filterTag}
+              onChange={(e) => setFilterTag(e.target.value)}
+              className="notion-input text-xs font-medium pl-8 pr-7 w-full sm:w-auto"
+            >
+              <option value="All">All Categories</option>
+              <option value="General">General</option>
+              {subjects.map(s => (
+                <option key={s._id} value={s.name}>{s.name}</option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
 
@@ -242,7 +244,7 @@ export default function NotesStorage({ notes = [], subjects = [], onUploadNote, 
 
               <div className="flex items-center gap-2 shrink-0">
                 <a
-                  href={`/uploads/${previewNote.filename}`}
+                  href={previewNote.publicUrl}
                   target="_blank"
                   rel="noreferrer"
                   className="notion-btn text-xs py-1 px-2.5 flex items-center gap-1"
@@ -272,13 +274,13 @@ export default function NotesStorage({ notes = [], subjects = [], onUploadNote, 
             <div className="flex-1 overflow-auto flex items-center justify-center p-2 rounded bg-[#F7F7F5] dark:bg-[#191919] border border-[#E9E9E7] dark:border-[#2E2E2E]">
               {isImageFile(previewNote) ? (
                 <img
-                  src={`/uploads/${previewNote.filename}`}
+                  src={previewNote.publicUrl}
                   alt={previewNote.originalName}
                   className="max-h-[70vh] w-auto max-w-full rounded object-contain"
                 />
               ) : isPdfFile(previewNote) ? (
                 <iframe
-                  src={`/uploads/${previewNote.filename}`}
+                  src={previewNote.publicUrl}
                   className="w-full h-[70vh] rounded border-0"
                   title={previewNote.originalName}
                 />
@@ -290,7 +292,7 @@ export default function NotesStorage({ notes = [], subjects = [], onUploadNote, 
                   </p>
                   <div className="flex justify-center gap-2 pt-1">
                     <a
-                      href={`/uploads/${previewNote.filename}`}
+                      href={previewNote.publicUrl}
                       target="_blank"
                       rel="noreferrer"
                       className="notion-btn text-xs"

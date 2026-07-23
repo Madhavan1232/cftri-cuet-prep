@@ -107,18 +107,17 @@ export default function PomodoroTimer({
   const strokeDashoffset = 440 - (440 * progressPercent) / 100;
 
   return (
-    <div className="dashboard-card space-y-6 flex flex-col items-center text-center max-w-lg mx-auto">
-      <div className="w-full flex items-center justify-between">
-        <div>
-          <h3 className="text-base font-semibold text-[#37352F] dark:text-[#E3E3E0] flex items-center gap-2">
-            <Timer className="w-4 h-4 text-[#787774]" /> Pomodoro Focus Timer
+    <div className="dashboard-card space-y-5 flex flex-col items-center text-center">
+      <div className="w-full flex items-center justify-between gap-2">
+        <div className="text-left min-w-0">
+          <h3 className="text-sm font-semibold text-[#37352F] dark:text-[#E3E3E0] flex items-center gap-2">
+            <Timer className="w-4 h-4 text-[#787774] shrink-0" /> Pomodoro Focus Timer
           </h3>
-          <p className="text-xs text-[#787774] dark:text-[#9B9B9B]">
-            Cycle #{cycleCount} • {mode === 'work' ? 'Focus Session' : mode === 'shortBreak' ? 'Short Break' : 'Long Break'}
+          <p className="text-xs text-[#787774] dark:text-[#9B9B9B] mt-0.5">
+            Cycle #{cycleCount} &bull; {mode === 'work' ? 'Focus Session' : mode === 'shortBreak' ? 'Short Break' : 'Long Break'}
           </p>
         </div>
-
-        <span className="px-2.5 py-0.5 rounded text-xs font-medium bg-[#F1F1EF] dark:bg-[#2D2D2D] text-[#787774] dark:text-[#9B9B9B] border border-[#E9E9E7] dark:border-[#2E2E2E]">
+        <span className="shrink-0 px-2.5 py-0.5 rounded text-[11px] font-medium bg-[#F1F1EF] dark:bg-[#2D2D2D] text-[#787774] dark:text-[#9B9B9B] border border-[#E9E9E7] dark:border-[#2E2E2E] whitespace-nowrap">
           {mode === 'work' ? 'Focus 25m' : mode === 'shortBreak' ? 'Short Break 5m' : 'Long Break 15m'}
         </span>
       </div>
@@ -152,7 +151,7 @@ export default function PomodoroTimer({
       </div>
 
       {/* SVG Circular Timer */}
-      <div className="relative w-52 h-52 flex items-center justify-center">
+      <div className="relative w-48 h-48 sm:w-52 sm:h-52 flex items-center justify-center">
         <svg className="w-full h-full transform -rotate-90" viewBox="0 0 160 160">
           <circle
             cx="80"
@@ -186,10 +185,10 @@ export default function PomodoroTimer({
       </div>
 
       {/* Action Controls */}
-      <div className="flex items-center gap-2.5">
+      <div className="flex items-center gap-3">
         <button
           onClick={resetTimer}
-          className="p-2.5 rounded bg-white dark:bg-[#2A2A2A] border border-[#E9E9E7] dark:border-[#2E2E2E] text-[#787774] hover:bg-[#EFEFED] dark:hover:bg-[#333333] transition-colors"
+          className="w-10 h-10 flex items-center justify-center rounded bg-white dark:bg-[#2A2A2A] border border-[#E9E9E7] dark:border-[#2E2E2E] text-[#787774] hover:bg-[#EFEFED] dark:hover:bg-[#333333] transition-colors"
           title="Reset Timer"
         >
           <RotateCcw className="w-4 h-4" />
@@ -197,7 +196,7 @@ export default function PomodoroTimer({
 
         <button
           onClick={toggleStart}
-          className="px-6 py-2 rounded font-medium text-sm bg-[#37352F] dark:bg-[#E3E3E0] text-white dark:text-[#191919] hover:bg-[#2A2A28] dark:hover:bg-[#D0D0CD] transition-colors shadow-[0_1px_2px_rgba(0,0,0,0.05)] flex items-center gap-2"
+          className="h-10 px-6 rounded font-medium text-sm bg-[#37352F] dark:bg-[#E3E3E0] text-white dark:text-[#191919] hover:bg-[#2A2A28] dark:hover:bg-[#D0D0CD] transition-colors flex items-center gap-2"
         >
           {isRunning ? <Pause className="w-4 h-4 fill-white dark:fill-[#191919]" /> : <Play className="w-4 h-4 fill-white dark:fill-[#191919] ml-0.5" />}
           <span>{isRunning ? 'Pause' : 'Start Focus'}</span>
@@ -205,7 +204,7 @@ export default function PomodoroTimer({
 
         <button
           onClick={skipSession}
-          className="p-2.5 rounded bg-white dark:bg-[#2A2A2A] border border-[#E9E9E7] dark:border-[#2E2E2E] text-[#787774] hover:bg-[#EFEFED] dark:hover:bg-[#333333] transition-colors"
+          className="w-10 h-10 flex items-center justify-center rounded bg-white dark:bg-[#2A2A2A] border border-[#E9E9E7] dark:border-[#2E2E2E] text-[#787774] hover:bg-[#EFEFED] dark:hover:bg-[#333333] transition-colors"
           title="Skip Session"
         >
           <SkipForward className="w-4 h-4" />

@@ -1,12 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const RevisionTask = require('../models/RevisionTask');
+const supabase = require('../lib/supabase');
+
+const normalize = (row) => row ? { ...row, _id: row.id } : null;
+const normalizeAll = (rows) => (rows || []).map(normalize);
 
 // GET /api/revision-tasks
 router.get('/', async (req, res) => {
   try {
-    const tasks = await RevisionTask.find().sort({ createdAt: -1 });
-    res.json(tasks);
+    const { data, error } = await supabase
+      .from('revision_tasks')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+    res.json(normalizeAll(data));
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -17,8 +25,15 @@ router.post('/', async (req, res) => {
   try {
     const { title, category } = req.body;
     if (!title) return res.status(400).json({ error: 'Title is required' });
-    const task = await RevisionTask.create({ title, category: category || 'General' });
-    res.status(201).json(task);
+
+    const { data, error } = await supabase
+      .from('revision_tasks')
+      .insert({ title, category: category || 'General' })
+      .select()
+      .single();
+
+    if (error) throw error;
+    res.status(201).json(normalize(data));
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -27,9 +42,23 @@ router.post('/', async (req, res) => {
 // PUT /api/revision-tasks/:id
 router.put('/:id', async (req, res) => {
   try {
-    const task = await RevisionTask.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!task) return res.status(404).json({ error: 'Task not found' });
-    res.json(task);
+    const { title, category, completed, weekKey } = req.body;
+    const updates = { updated_at: new Date().toISOString() };
+    if (title !== undefined) updates.title = title;
+    if (category !== undefined) updates.category = category;
+    if (completed !== undefined) updates.completed = completed;
+    if (weekKey !== undefined) updates.week_key = weekKey;
+
+    const { data, error } = await supabase
+      .from('revision_tasks')
+      .update(updates)
+      .eq('id', req.params.id)
+      .select()
+      .single();
+
+    if (error) throw error;
+    if (!data) return res.status(404).json({ error: 'Task not found' });
+    res.json(normalize(data));
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -38,7 +67,12 @@ router.put('/:id', async (req, res) => {
 // DELETE /api/revision-tasks/:id
 router.delete('/:id', async (req, res) => {
   try {
-    await RevisionTask.findByIdAndDelete(req.params.id);
+    const { error } = await supabase
+      .from('revision_tasks')
+      .delete()
+      .eq('id', req.params.id);
+
+    if (error) throw error;
     res.json({ message: 'Task deleted' });
   } catch (err) {
     res.status(500).json({ error: err.message });

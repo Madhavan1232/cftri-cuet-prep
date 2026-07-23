@@ -18,7 +18,6 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('overview');
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
-  // Application Data States
   const [examSettings, setExamSettings] = useState(null);
   const [timelineEvents, setTimelineEvents] = useState([]);
   const [subjects, setSubjects] = useState([]);
@@ -29,30 +28,17 @@ export default function App() {
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Load All Dashboard Data
   const loadData = async () => {
     try {
       setLoading(true);
       const [
-        examsData,
-        timelineData,
-        subjectsData,
-        logsData,
-        mockData,
-        streakRes,
-        revisionData,
-        notesData
+        examsData, timelineData, subjectsData, logsData,
+        mockData, streakRes, revisionData, notesData
       ] = await Promise.all([
-        api.getExams(),
-        api.getTimeline(),
-        api.getSubjects(),
-        api.getStudyLogs(),
-        api.getMockTests(),
-        api.getStreak(),
-        api.getRevisionTasks(),
-        api.getNotes()
+        api.getExams(), api.getTimeline(), api.getSubjects(),
+        api.getStudyLogs(), api.getMockTests(), api.getStreak(),
+        api.getRevisionTasks(), api.getNotes()
       ]);
-
       setExamSettings(examsData);
       setTimelineEvents(timelineData);
       setSubjects(subjectsData);
@@ -68,22 +54,17 @@ export default function App() {
     }
   };
 
-  useEffect(() => {
-    loadData();
-  }, []);
+  useEffect(() => { loadData(); }, []);
 
-  // Handlers
-  const handleSaveSettings = async (updatedSettings) => {
-    const res = await api.updateExams(updatedSettings);
+  const handleSaveSettings = async (updated) => {
+    const res = await api.updateExams(updated);
     setExamSettings(res);
   };
 
-  const handleAddTimelineEvent = async (eventData) => {
-    await api.addTimelineEvent(eventData);
-    const updated = await api.getTimeline();
-    setTimelineEvents(updated);
+  const handleAddTimelineEvent = async (data) => {
+    await api.addTimelineEvent(data);
+    setTimelineEvents(await api.getTimeline());
   };
-
   const handleDeleteTimelineEvent = async (id) => {
     await api.deleteTimelineEvent(id);
     setTimelineEvents(prev => prev.filter(e => e._id !== id));
@@ -91,14 +72,12 @@ export default function App() {
 
   const handleUpdateSubject = async (id, data) => {
     const updated = await api.updateSubject(id, data);
-    setSubjects(prev => prev.map(s => (s._id === id ? updated : s)));
+    setSubjects(prev => prev.map(s => s._id === id ? updated : s));
   };
-
   const handleAddSubject = async (data) => {
     const created = await api.addSubject(data);
     setSubjects(prev => [...prev, created]);
   };
-
   const handleDeleteSubject = async (id) => {
     await api.deleteSubject(id);
     setSubjects(prev => prev.filter(s => s._id !== id));
@@ -106,20 +85,14 @@ export default function App() {
 
   const handleLogStudyHours = async (logData) => {
     await api.logStudyHours(logData);
-    const [updatedLogs, streakRes] = await Promise.all([
-      api.getStudyLogs(),
-      api.getStreak()
-    ]);
+    const [updatedLogs, streakRes] = await Promise.all([api.getStudyLogs(), api.getStreak()]);
     setStudyLogs(updatedLogs);
     setStreakData(streakRes);
   };
 
   const handleToggleMockTest = async (mockData) => {
     await api.toggleMockTest(mockData);
-    const [updatedMock, streakRes] = await Promise.all([
-      api.getMockTests(),
-      api.getStreak()
-    ]);
+    const [updatedMock, streakRes] = await Promise.all([api.getMockTests(), api.getStreak()]);
     setMockTests(updatedMock);
     setStreakData(streakRes);
   };
@@ -128,12 +101,10 @@ export default function App() {
     const created = await api.addRevisionTask(taskData);
     setRevisionTasks(prev => [created, ...prev]);
   };
-
   const handleToggleRevisionTask = async (id, completed) => {
     const updated = await api.updateRevisionTask(id, { completed });
-    setRevisionTasks(prev => prev.map(t => (t._id === id ? updated : t)));
+    setRevisionTasks(prev => prev.map(t => t._id === id ? updated : t));
   };
-
   const handleDeleteRevisionTask = async (id) => {
     await api.deleteRevisionTask(id);
     setRevisionTasks(prev => prev.filter(t => t._id !== id));
@@ -141,10 +112,8 @@ export default function App() {
 
   const handleUploadNote = async (formData) => {
     await api.uploadNote(formData);
-    const updatedNotes = await api.getNotes();
-    setNotes(updatedNotes);
+    setNotes(await api.getNotes());
   };
-
   const handleDeleteNote = async (id) => {
     await api.deleteNote(id);
     setNotes(prev => prev.filter(n => n._id !== id));
@@ -152,56 +121,54 @@ export default function App() {
 
   return (
     <ThemeProvider>
-      <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
-        {/* Sticky Header */}
-        <Header
-          streakData={streakData}
-          onOpenSettings={() => setIsSettingsOpen(true)}
-        />
+      <div className="min-h-screen flex flex-col bg-[#FBFBFA] dark:bg-[#191919] text-[#37352F] dark:text-[#E3E3E0] transition-colors">
 
-        {/* Main Content Area with Sidebar */}
-        <div className="flex-1 flex flex-col lg:flex-row max-w-[1600px] w-full mx-auto">
+        {/* Sticky Header */}
+        <Header streakData={streakData} onOpenSettings={() => setIsSettingsOpen(true)} />
+
+        {/* Body */}
+        <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
+
+          {/* Sidebar */}
           <Sidebar
             activeTab={activeTab}
             setActiveTab={setActiveTab}
             onOpenSettings={() => setIsSettingsOpen(true)}
           />
 
-          <main className="flex-1 p-4 lg:p-8 space-y-6 overflow-y-auto">
+          {/* Main scroll area */}
+          <main className="flex-1 overflow-y-auto overflow-x-hidden">
             {loading ? (
               <div className="flex items-center justify-center h-64">
-                <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+                <div className="w-7 h-7 border-[3px] border-[#37352F] dark:border-[#E3E3E0] border-t-transparent rounded-full animate-spin" />
               </div>
             ) : (
-              <>
-                {/* OVERVIEW TAB */}
+              <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+                {/* ── OVERVIEW ── */}
                 {activeTab === 'overview' && (
-                  <div className="space-y-6">
-                    {/* Top Exam Countdowns Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <>
+                    {/* Countdown cards */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <CountdownCard
                         title="CFTRI Entrance Exam 2026"
                         targetDate={examSettings?.cftriDate || '2026-08-20T09:00:00'}
-                        badgeColor="blue"
                         onEdit={() => setIsSettingsOpen(true)}
                       />
-
                       <CountdownCard
                         title="CUET PG Entrance Exam 2026"
                         targetDate={examSettings?.cuetDate || '2026-09-05T09:00:00'}
-                        badgeColor="purple"
                         onEdit={() => setIsSettingsOpen(true)}
                       />
                     </div>
 
-                    {/* Schedule Block & Timeline */}
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                      <div className="lg:col-span-2 space-y-6">
+                    {/* Schedule + Timeline/Mock */}
+                    <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
+                      <div className="xl:col-span-2 space-y-4">
                         <ScheduleBlock
                           breakStart={examSettings?.breakStart}
                           breakEnd={examSettings?.breakEnd}
                         />
-
                         <WeeklyStudyChart
                           studyLogs={studyLogs}
                           subjects={subjects}
@@ -210,14 +177,12 @@ export default function App() {
                           onDeleteSubject={handleDeleteSubject}
                         />
                       </div>
-
-                      <div className="space-y-6">
+                      <div className="space-y-4">
                         <Timeline
                           events={timelineEvents}
                           onAddEvent={handleAddTimelineEvent}
                           onDeleteEvent={handleDeleteTimelineEvent}
                         />
-
                         <MockTracker
                           mockTests={mockTests}
                           onToggleMockTest={handleToggleMockTest}
@@ -232,12 +197,12 @@ export default function App() {
                       onAddSubject={handleAddSubject}
                       onDeleteSubject={handleDeleteSubject}
                     />
-                  </div>
+                  </>
                 )}
 
-                {/* STUDY TRACKER TAB */}
+                {/* ── TRACKER ── */}
                 {activeTab === 'tracker' && (
-                  <div className="space-y-6">
+                  <div className="space-y-4">
                     <WeeklyStudyChart
                       studyLogs={studyLogs}
                       subjects={subjects}
@@ -245,14 +210,12 @@ export default function App() {
                       onAddSubject={handleAddSubject}
                       onDeleteSubject={handleDeleteSubject}
                     />
-
                     <SubjectProgress
                       subjects={subjects}
                       onUpdateSubject={handleUpdateSubject}
                       onAddSubject={handleAddSubject}
                       onDeleteSubject={handleDeleteSubject}
                     />
-
                     <MockTracker
                       mockTests={mockTests}
                       onToggleMockTest={handleToggleMockTest}
@@ -260,48 +223,47 @@ export default function App() {
                   </div>
                 )}
 
-                {/* POMODORO TAB */}
+                {/* ── POMODORO ── */}
                 {activeTab === 'pomodoro' && (
-                  <div className="space-y-6">
-                    <PomodoroTimer
-                      workMinutes={examSettings?.pomodoroWork || 25}
-                      shortBreakMinutes={examSettings?.pomodoroShortBreak || 5}
-                      longBreakMinutes={examSettings?.pomodoroLongBreak || 15}
-                      subjects={subjects}
-                      onLogStudySession={handleLogStudyHours}
-                    />
+                  <div className="flex justify-center">
+                    <div className="w-full max-w-md">
+                      <PomodoroTimer
+                        workMinutes={examSettings?.pomodoroWork || 25}
+                        shortBreakMinutes={examSettings?.pomodoroShortBreak || 5}
+                        longBreakMinutes={examSettings?.pomodoroLongBreak || 15}
+                        subjects={subjects}
+                        onLogStudySession={handleLogStudyHours}
+                      />
+                    </div>
                   </div>
                 )}
 
-                {/* REVISION PLANNER TAB */}
+                {/* ── REVISION ── */}
                 {activeTab === 'revision' && (
-                  <div className="space-y-6">
-                    <RevisionPlanner
-                      tasks={revisionTasks}
-                      onAddTask={handleAddRevisionTask}
-                      onToggleTask={handleToggleRevisionTask}
-                      onDeleteTask={handleDeleteRevisionTask}
-                    />
-                  </div>
+                  <RevisionPlanner
+                    tasks={revisionTasks}
+                    onAddTask={handleAddRevisionTask}
+                    onToggleTask={handleToggleRevisionTask}
+                    onDeleteTask={handleDeleteRevisionTask}
+                  />
                 )}
 
-                {/* NOTES VAULT TAB */}
+                {/* ── NOTES ── */}
                 {activeTab === 'notes' && (
-                  <div className="space-y-6">
-                    <NotesStorage
-                      notes={notes}
-                      subjects={subjects}
-                      onUploadNote={handleUploadNote}
-                      onDeleteNote={handleDeleteNote}
-                    />
-                  </div>
+                  <NotesStorage
+                    notes={notes}
+                    subjects={subjects}
+                    onUploadNote={handleUploadNote}
+                    onDeleteNote={handleDeleteNote}
+                  />
                 )}
-              </>
+
+              </div>
             )}
           </main>
         </div>
 
-        {/* Global Settings Modal */}
+        {/* Settings Modal */}
         <SettingsModal
           settings={examSettings}
           isOpen={isSettingsOpen}

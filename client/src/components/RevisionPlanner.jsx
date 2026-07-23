@@ -62,25 +62,24 @@ export default function RevisionPlanner({ tasks = [], onAddTask, onToggleTask, o
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="e.g. Revise Organic Chemistry Mechanisms & MCQs"
-          className="notion-input flex-1 text-xs"
+          className="notion-input flex-1 text-xs min-w-0"
         />
-
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="notion-input text-xs font-medium"
+          className="notion-input text-xs w-24 sm:w-28 shrink-0"
         >
           <option value="CFTRI">CFTRI</option>
           <option value="CUET">CUET</option>
           <option value="General">General</option>
         </select>
-
         <button
           type="submit"
-          className="notion-btn text-xs py-1.5 px-3 flex items-center gap-1 shrink-0"
+          className="notion-btn text-xs px-3 shrink-0 gap-1"
         >
           <Plus className="w-3.5 h-3.5" />
-          <span>Add Task</span>
+          <span className="hidden sm:inline">Add Task</span>
+          <span className="sm:hidden">Add</span>
         </button>
       </form>
 

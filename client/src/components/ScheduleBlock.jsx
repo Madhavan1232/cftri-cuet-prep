@@ -78,31 +78,31 @@ export default function ScheduleBlock({ breakStart = '17:00', breakEnd = '17:30'
 
   return (
     <div className="dashboard-card space-y-4">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-        <div>
-          <div className="flex items-center gap-2">
-            <h3 className="text-base font-semibold text-[#37352F] dark:text-[#E3E3E0]">
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+        <div className="min-w-0">
+          <div className="flex items-center gap-2 flex-wrap">
+            <h3 className="text-sm font-semibold text-[#37352F] dark:text-[#E3E3E0]">
               Daily Study Block (3:00 PM – 8:00 PM)
             </h3>
             {isWithinStudyBlock && (
-              <span className="px-2 py-0.5 rounded text-xs font-medium bg-[#F1F1EF] dark:bg-[#2D2D2D] text-[#37352F] dark:text-[#E3E3E0] border border-[#E9E9E7] dark:border-[#2E2E2E]">
+              <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-[#F1F1EF] dark:bg-[#2D2D2D] text-[#37352F] dark:text-[#E3E3E0] border border-[#E9E9E7] dark:border-[#2E2E2E] whitespace-nowrap">
                 • Active Now
               </span>
             )}
           </div>
-          <p className="text-xs text-[#787774] dark:text-[#9B9B9B]">
+          <p className="text-xs text-[#787774] dark:text-[#9B9B9B] mt-0.5">
             Fixed preparation routine block with scheduled relaxation break
           </p>
         </div>
 
-        <div className="text-xs font-medium text-[#787774] dark:text-[#9B9B9B] flex items-center gap-1.5 bg-[#F7F7F5] dark:bg-[#202020] px-2.5 py-1 rounded border border-[#E9E9E7] dark:border-[#2E2E2E]">
-          <Coffee className="w-3.5 h-3.5 text-[#787774]" />
+        <div className="inline-flex items-center gap-1.5 px-2.5 h-8 rounded text-[11px] font-medium text-[#787774] dark:text-[#9B9B9B] bg-[#F7F7F5] dark:bg-[#202020] border border-[#E9E9E7] dark:border-[#2E2E2E] shrink-0 whitespace-nowrap">
+          <Coffee className="w-3.5 h-3.5 shrink-0" />
           <span>Break: {formattedBreakStart} – {formattedBreakEnd}</span>
         </div>
       </div>
 
       {/* Slots Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
         {defaultSlots.map((slot, i) => {
           const isActive = checkIsActive(slot.start, slot.end);
           const isBreak = slot.type === 'break';
@@ -112,35 +112,32 @@ export default function ScheduleBlock({ breakStart = '17:00', breakEnd = '17:30'
           return (
             <div
               key={i}
-              className={`p-3 rounded-lg border transition-colors relative ${
+              className={`p-3 rounded-lg border transition-colors ${
                 isActive
-                  ? 'bg-[#F7F7F5] dark:bg-[#2A2A2A] border-[#37352F] dark:border-[#666666] text-[#37352F] dark:text-[#E3E3E0]'
+                  ? 'bg-[#F7F7F5] dark:bg-[#2A2A2A] border-[#37352F] dark:border-[#666666]'
                   : isBreak
-                  ? 'bg-[#F9F9F8] dark:bg-[#222222] border-[#E9E9E7] dark:border-[#2E2E2E] text-[#37352F] dark:text-[#E3E3E0]'
-                  : 'bg-white dark:bg-[#252525] border-[#E9E9E7] dark:border-[#2E2E2E] text-[#37352F] dark:text-[#E3E3E0]'
+                  ? 'bg-[#F9F9F8] dark:bg-[#222222] border-[#E9E9E7] dark:border-[#2E2E2E]'
+                  : 'bg-white dark:bg-[#252525] border-[#E9E9E7] dark:border-[#2E2E2E]'
               }`}
             >
-              <div className="flex items-center justify-between mb-1">
+              <div className="flex items-center justify-between mb-1.5">
                 <span className="text-[11px] font-medium font-mono text-[#787774] dark:text-[#9B9B9B]">
                   {slot.label}
                 </span>
-
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-0.5">
                   {!isEditingThis && (
                     <button
                       onClick={() => handleStartEdit(i, displayTitle)}
-                      className="p-1 rounded text-[#787774] dark:text-[#9B9B9B] hover:bg-[#EFEFED] dark:hover:bg-[#333333] transition-colors"
+                      className="w-6 h-6 flex items-center justify-center rounded text-[#787774] dark:text-[#9B9B9B] hover:bg-[#EFEFED] dark:hover:bg-[#333333] transition-colors"
                       title="Edit slot title"
                     >
-                      <Edit2 className="w-3.5 h-3.5" />
+                      <Edit2 className="w-3 h-3" />
                     </button>
                   )}
-
-                  {isBreak ? (
-                    <Coffee className="w-3.5 h-3.5 text-[#787774]" />
-                  ) : (
-                    <Clock className="w-3.5 h-3.5 text-[#787774]" />
-                  )}
+                  {isBreak
+                    ? <Coffee className="w-3.5 h-3.5 text-[#787774]" />
+                    : <Clock  className="w-3.5 h-3.5 text-[#787774]" />
+                  }
                 </div>
               </div>
 
@@ -155,23 +152,23 @@ export default function ScheduleBlock({ breakStart = '17:00', breakEnd = '17:30'
                       if (e.key === 'Enter') handleSaveEdit(i);
                       if (e.key === 'Escape') handleCancelEdit();
                     }}
-                    className="notion-input w-full text-xs py-1"
+                    className="notion-input flex-1 text-xs"
                   />
                   <button
                     onClick={() => handleSaveEdit(i)}
-                    className="p-1 rounded bg-[#37352F] dark:bg-[#E3E3E0] text-white dark:text-[#191919]"
+                    className="w-8 h-8 flex items-center justify-center rounded bg-[#37352F] dark:bg-[#E3E3E0] text-white dark:text-[#191919] shrink-0"
                   >
                     <Check className="w-3.5 h-3.5" />
                   </button>
                   <button
                     onClick={handleCancelEdit}
-                    className="p-1 rounded bg-[#EFEFED] dark:bg-[#333333] text-[#787774]"
+                    className="w-8 h-8 flex items-center justify-center rounded bg-[#EFEFED] dark:bg-[#333333] text-[#787774] shrink-0"
                   >
                     <X className="w-3.5 h-3.5" />
                   </button>
                 </div>
               ) : (
-                <h4 className="text-xs font-semibold truncate">{displayTitle}</h4>
+                <h4 className="text-xs font-semibold text-[#37352F] dark:text-[#E3E3E0] truncate">{displayTitle}</h4>
               )}
             </div>
           );
